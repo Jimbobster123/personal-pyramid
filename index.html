@@ -200,9 +200,9 @@ table.hist td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:rig
 const WAKING = 168 - 52.5; // 7.5 h sleep a night
 
 const VALUES = [
- {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:30, hours:20,
+ {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:35, hours:20,
   quote:"Love is the most powerful thing there is. Without family and marriage, life gets a lot harder.",
-  why:["My first value covers both my marriage and the family I want to build.","At 40 I want a strong family unit and kids I've taught to live happily and do good in the world.","Failure for me would be forgetting the importance of family and living life as a means to an end."],
+  why:["My first value covers both my marriage and the family I want to build.","At 40 I want a strong family unit and kids I've taught to live happily and do good in the world.","Failure for me would be forgetting the importance of family and living life as a means to an end.","Love also shapes how I treat people: I can't stand lying for personal gain or throwing others under the bus. When values clash, I weigh the greater good, like giving up an hour if it makes a family's life 20 times easier, while still taking care of myself."],
   resources:[
    {t:"A marriage with a real decision process: we both share what we want, make sure we're both heard, then find the compromise that's best for both of us", r:"Rare"},
    {t:"Being the consistent person friends come to for emotional support", r:"Rare"},
@@ -211,12 +211,12 @@ const VALUES = [
   orgNow:"Time with my wife fits around work, class, and deadlines. Nothing on the calendar protects it.",
   orgNext:["One protected date night every week, scheduled like a class","A shared calendar so we plan the week together","Phone-away evenings"],
   activities:"About 20 hours a week with my wife, mostly evenings and weekends.",
-  alert:{lvl:"bad", text:"My #1 value (30 points) gets about 17% of my waking hours."},
+  alert:{lvl:"bad", text:"My #1 value (35 points) gets about 17% of my waking hours."},
   evidence:{text:"Couples who set aside time just for each other at least once a week report higher relationship quality and lower divorce rates (National Marriage Project).", url:"https://mrecenter.org/date-nights-matter/", label:"Date Night Opportunity summary"},
   next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
   layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
  },
- {id:"freedom", name:"Freedom", sub:"Adventure and vitality", rank:2, pts:20, hours:11.5,
+ {id:"freedom", name:"Freedom", sub:"Adventure and vitality", rank:2, pts:25, hours:11.5,
   quote:"Everyone should have the chance to learn and figure out what they like and what they want to do.",
   why:["Freedom is what makes growth possible: when you're free, you're able to learn.","At 40 I still want to be adventuring and enjoying the small things life offers, and that takes a body that can keep up.","I really do value health. Being healthy is what keeps me free; burnout is the opposite of freedom.","I want to live somewhere with always something to do, a big city or California."],
   resources:[
@@ -229,7 +229,7 @@ const VALUES = [
   orgNow:"I save weekends for something fun when I can. Exercise happens only if there's time left over, which is rarely.",
   orgNext:["Keep one weekend block every week for a side quest","Schedule workouts like meetings: three runs and two strength sessions","Protect sleep before adding new commitments","Choose a legal path that protects flexibility, not just pay"],
   activities:"About 10 hours a week of fun, mostly on weekends, and 1 to 2 hours of running or gym.",
-  alert:{lvl:"warn", text:"Half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, below the CDC minimum. Together that's about 10% of my waking hours for a value worth 20 points, and law's long hours put both halves at risk."},
+  alert:{lvl:"warn", text:"Half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, below the CDC minimum. Together that's about 10% of my waking hours for a value worth 25 points, and law's long hours put both halves at risk."},
   evidence:{text:"The CDC recommends 150 minutes of moderate activity or 75 minutes of vigorous activity a week, plus 2 days of strength training. Attorneys averaged 48 hours of work a week in 2024 and 51.7 in late 2025 (Bloomberg Law), and the 2025-2026 ABA well-being study tied longer hours to higher risk of burnout, anxiety, and depression.", links:[{url:"https://www.cdc.gov/physicalactivity/basics/adults/", label:"CDC guidelines"},{url:"https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar", label:"Bloomberg Law survey"},{url:"https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/", label:"ABA study"}]},
   next:["Hit 150 minutes of exercise and 2 strength days every week","Train for my first marathon in early 2027","Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
   layer:{res:"Portable skill set, EMT training", org:"Weekends; exercise only if time is left"}
@@ -242,10 +242,11 @@ const VALUES = [
    {t:"Legal team experience at Podium, an AI company, while still in school", r:"Rare"},
    {t:"Privacy work at the CES privacy office and time working at my dad's personal injury firm", r:"Rare"},
    {t:"The combination: someone who understands both the technology and the law behind it", r:"Very rare"},
+   {t:"Reputation for being reliable and always there for people. Built over years, so it can't be bought or copied quickly", r:"Very rare"},
    {t:"LSAT taken, law school applications in progress", r:"Common"},
    {t:"Capability: I learn new things fast, plan logistics, and solve technical problems", r:"Rare"}],
   orgNow:"I go to work, and everything after that is hitting deadlines. The week runs on due dates, not a plan.",
-  orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication"],
+  orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication","Write tasks down the day I take them on, so procrastination doesn't cost me my reputation for reliability"],
   activities:"About 70 hours a week: 30 at work, 20 on class and homework, 20 on law school applications.",
   alert:{lvl:"bad", text:"Growth has 20 points but takes about 61% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car."},
   evidence:null,
@@ -266,21 +267,6 @@ const VALUES = [
   evidence:null,
   next:["Grow from about 7 to 10 hours a week","Personal study most days of the week"],
   layer:{res:"Mission in Milan: can do hard things", org:"Sunday + when it fits"}
- },
- {id:"character", name:"Character", sub:"Honesty and integrity", rank:5, pts:10, hours:null,
-  quote:"Everything else helps bring out a person's honesty and integrity and helps them become the best person possible.",
-  why:["I can't stand dishonesty, people making up stories for their own gain, or throwing others under the bus.","When values clash I weigh the greater good: an hour of my day is worth it if it makes a family's life 20 times easier.","I also believe in taking care of yourself."],
-  resources:[
-   {t:"Reputation: reliable, always there for people, does the right thing. Built over years, so it can't be bought or copied quickly", r:"Very rare"},
-   {t:"Calm under pressure, trained as an EMT at 17", r:"Rare"},
-   {t:"A clear greater-good decision rule", r:"Rare"}],
-  orgNow:"No system. I rely on instinct and showing up.",
-  orgNext:["A weekly review: commitments I made vs. commitments I kept","Write down tasks the day I take them on, so procrastination doesn't cost my reliability"],
-  activities:"Character isn't measured in hours, so I track commitments kept and tasks put off.",
-  alert:{lvl:"warn", text:"Procrastination is the biggest threat to my reliability, and reliability is my most valuable reputation asset."},
-  evidence:null,
-  next:["Become a stronger communicator and public speaker, which is how a lawyer's character shows up to others"],
-  layer:{res:"Reputation for reliability", org:"Instinct, no review"}
  }
 ];
 const COLOR = id => `var(--c-${id})`;
@@ -324,8 +310,7 @@ const FIELDS = {
  love:[{k:"hours",label:"Quality hours with my wife",t:"num",goal:"love",unit:"h"},{k:"date",label:"Had a date night this week",t:"check"}],
  freedom:[{k:"hours",label:"Hours of fun or side quests",t:"num",goal:"freedom",unit:"h"},{k:"quest",label:"Did something new this week",t:"check"},{k:"min",label:"Exercise minutes",t:"num",goal:"healthMin",unit:"m"},{k:"str",label:"Strength days",t:"num",goal:"healthStr",unit:"d",max:7},{k:"sleep",label:"Average sleep per night",t:"num",goal:"sleep",unit:"h",step:0.5}],
  growth:[{k:"hours",label:"Work + class + law school hours",t:"num",goal:"growthCap",unit:"h",cap:true},{k:"reps",label:"Writing or speaking practice sessions",t:"num",goal:"growthReps",unit:"x"}],
- faith:[{k:"hours",label:"Church + study hours",t:"num",goal:"faith",unit:"h"},{k:"days",label:"Days with personal study",t:"num",goal:"faithDays",unit:"d",max:7}],
- character:[{k:"made",label:"Commitments I made",t:"num",unit:""},{k:"kept",label:"Commitments I kept",t:"num",unit:""},{k:"putoff",label:"Tasks I put off past the plan",t:"num",unit:""}]
+ faith:[{k:"hours",label:"Church + study hours",t:"num",goal:"faith",unit:"h"},{k:"days",label:"Days with personal study",t:"num",goal:"faithDays",unit:"d",max:7}]
 };
 let store = {targets:{...DEFAULT_TARGETS}, weeks:{}};
 let mode = "none", ref = null, dirty = false, saving = Promise.resolve(), saveTimer = null;
@@ -345,7 +330,6 @@ function valueScore(id, w, T){
   if(id==="freedom"){ if(has("hours")) parts.push(clamp1(w.hours/T.freedom)); if(has("quest")) parts.push(w.quest?1:0); if(has("min")) parts.push(clamp1(w.min/T.healthMin)); if(has("str")) parts.push(clamp1(w.str/T.healthStr)); if(has("sleep")) parts.push(clamp1(w.sleep/T.sleep)); }
   if(id==="growth"){ if(has("hours")) parts.push(w.hours<=T.growthCap?1:clamp1(T.growthCap/w.hours)); if(has("reps")) parts.push(clamp1(w.reps/T.growthReps)); }
   if(id==="faith"){ if(has("hours")) parts.push(clamp1(w.hours/T.faith)); if(has("days")) parts.push(clamp1(w.days/T.faithDays)); }
-  if(id==="character"){ if(has("made")&&w.made>0&&has("kept")) parts.push(clamp1((w.kept/w.made*100)/T.charPct)); }
   return parts.length ? Math.round(parts.reduce((a,b)=>a+b,0)/parts.length*100) : null;
 }
 function weekScore(k){
@@ -464,7 +448,8 @@ function viewOverview(){
   const alerts = [
     {lvl:"bad", h:"My week doesn't fit in a week", t:`I reported ${WEEK_TOTAL} hours of commitments in a 168-hour week, before meals, chores, or my phone.`},
     ...VALUES.map(v=>({lvl:v.alert.lvl, h:v.name, t:v.alert.text, id:v.id})),
-    {lvl:"warn", h:"Organization", t:"My week is run by deadlines instead of a system. This dashboard is my first attempt at fixing that layer."}
+    {lvl:"warn", h:"Organization", t:"My week is run by deadlines instead of a system. This dashboard is my first attempt at fixing that layer."},
+    {lvl:"warn", h:"Reliability", t:"Procrastination is the biggest threat to my reliability, and reliability is one of my most valuable resources."}
   ];
   const order={bad:0,warn:1,good:2};
   alerts.sort((a,b)=>order[a.lvl]-order[b.lvl]);
@@ -511,7 +496,7 @@ function viewOverview(){
       <section class="card">
         <div class="section-head"><h2>Lifelines</h2><span class="muted" style="font-size:13px">Priority vs. time</span></div>
         ${VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,false)}</div>`).join("")}
-        <p class="note">Priority = my 100-point split (love 30, freedom 20, growth 20, faith 20, character 10). Time = share of my ${Math.round(WAKING)} waking hours. Freedom includes health.</p>
+        <p class="note">Priority = my 100-point split (love 35, freedom 25, growth 20, faith 20). Time = share of my ${Math.round(WAKING)} waking hours. Freedom includes health.</p>
       </section>
       <section class="card">
         <div class="section-head"><h2>Misalignments</h2><span class="muted" style="font-size:13px">Where the layers pull apart</span></div>
@@ -633,9 +618,10 @@ function viewReflection(){
       <ul>
         <li>My time is set by deadlines, not values. Growth gets 70 hours a week because it has due dates. Love, Faith, and Health don't, so they get whatever is left.</li>
         <li>I can't fully separate Growth from Love. Most of those 70 hours are how I plan to provide for my family. The real question is whether the investment is crowding out the thing it's supposed to protect.</li>
-        <li>I changed my priorities after seeing my real week. My first split was love 30, faith 30, freedom 10, growth 10, character 10. It only added to 90, and it didn't match my own ranking, since I listed faith fourth but gave it 30 points. My final split is love 30, freedom 20, growth 20, faith 20, character 10, which matches my ranking and is more honest about how much growth matters to me.</li>
+        <li>I changed my priorities after seeing my real week. My first split was love 30, faith 30, freedom 10, growth 10, character 10. It only added to 90, and it didn't match my own ranking, since I listed faith fourth but gave it 30 points. My final split is love 35, freedom 25, growth 20, faith 20, which matches my ranking and is more honest about how much growth matters to me.</li>
         <li>Health was hiding in plain sight. It wasn't in my top five, but it was my answer to "biggest tension" and "where my calendar contradicts my values." I put it inside Freedom, because being healthy is what keeps me free to adventure, and burnout is the opposite of freedom.</li>
         <li>Freedom is only half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, and the career I'm choosing is known for long hours that threaten both.</li>
+        <li>I started with five values and cut Character. Honesty and integrity still matter to me, but they turned out to be <em>how</em> I live the other four, not a separate place my time goes. So I moved those ideas into Love (how I treat people) and Growth (my reputation for reliability).</li>
         <li>My most valuable resource might be my reputation for reliability, and my biggest threat to it is procrastination.</li>
       </ul>
     </section>
