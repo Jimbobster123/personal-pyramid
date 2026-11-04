@@ -516,7 +516,7 @@ const DYN = {
       const s=weekScore(k), a=ctxFor(k).score;
       return `<tr><td>${weekLabel(k)}</td><td>${s==null?"–":s+"%"}</td><td>${a==null?"–":a}</td></tr>`; }).join("");
     return rows ? `<div class="tablewrap"><table class="hist"><thead><tr><th>Week of</th><th>On-track</th><th>Alignment</th></tr></thead><tbody>${rows}</tbody></table></div>`
-      : `<p class="muted" style="font-size:14px">No weeks logged yet. Change any hours above or fill in a value tab's tracker, and each week's on-track score and alignment will show up here.</p>`; },
+      : `<p class="muted" style="font-size:14px">No weeks logged yet. Enter this week's hours in the calendar above to record the first one.</p>`; },
   vpill(id){ const x=ctxFor(curWeek); const l=x.lvl[id]; return `<span class="pill ${l}">${pillWord(l)}</span>`; },
   vbig(id){ const x=ctxFor(curWeek); return lifeBars(VALUES.find(v=>v.id===id), x, true); },
   vgap(id){ const x=ctxFor(curWeek); return `<b>The gap:</b> ${VALUES.find(v=>v.id===id).alert(x)}`; },
@@ -613,7 +613,8 @@ function viewOverview(){
     </div>
 
     <section class="card">
-      <div class="section-head"><h2>Weekly log</h2><span class="muted" style="font-size:13px">One row per week</span></div>
+      <div class="section-head"><h2>Weekly log</h2></div>
+      <p class="muted" style="font-size:14px;max-width:70ch;margin-bottom:12px">As I enter my hours in the calendar each week, that week gets recorded here, so I can see whether my life is moving closer to my values over time. <b>On-track</b> shows how close I got to my weekly goals, and <b>Alignment</b> shows how well my time matched my priorities.</p>
       <div data-dyn="history"></div>
     </section>
   </div>`;
