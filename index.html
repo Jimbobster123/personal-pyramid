@@ -200,7 +200,7 @@ table.hist td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:rig
 const WAKING = 168 - 52.5; // 7.5 h sleep a night
 
 const VALUES = [
- {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:35, hours:20,
+ {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:30, hours:20,
   quote:"Love is the most powerful thing there is. Without family and marriage, life gets a lot harder.",
   why:["My first value covers both my marriage and the family I want to build.","At 40 I want a strong family unit and kids I've taught to live happily and do good in the world.","Failure for me would be forgetting the importance of family and living life as a means to an end.","Love also shapes how I treat people: I can't stand lying for personal gain or throwing others under the bus. When values clash, I weigh the greater good, like giving up an hour if it makes a family's life 20 times easier, while still taking care of myself."],
   resources:[
@@ -211,7 +211,7 @@ const VALUES = [
   orgNow:"Time with my wife fits around work, class, and deadlines. Nothing on the calendar protects it.",
   orgNext:["One protected date night every week, scheduled like a class","A shared calendar so we plan the week together","Phone-away evenings"],
   activities:"About 20 hours a week with my wife, mostly evenings and weekends.",
-  alert:{lvl:"bad", text:"My #1 value (35 points) gets about 17% of my waking hours."},
+  alert:{lvl:"bad", text:"My #1 value (30 points) gets about 17% of my waking hours."},
   evidence:{text:"Couples who set aside time just for each other at least once a week report higher relationship quality and lower divorce rates (National Marriage Project).", url:"https://mrecenter.org/date-nights-matter/", label:"Date Night Opportunity summary"},
   next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
   layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
@@ -234,7 +234,7 @@ const VALUES = [
   next:["Hit 150 minutes of exercise and 2 strength days every week","Train for my first marathon in early 2027","Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
   layer:{res:"Portable skill set, EMT training", org:"Weekends; exercise only if time is left"}
  },
- {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:20, hours:70,
+ {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:25, hours:70,
   quote:"When you're able to learn, you're able to become better, to become something new. It gives you purpose to keep moving forward.",
   why:["Staying stagnant is one of the things that frustrates me most.","I've always wanted to move toward my goals fast: I took an EMT class at 17 so I wouldn't stand still.","I want to be an attorney who helps regulate and govern how AI changes the world."],
   resources:[
@@ -248,7 +248,7 @@ const VALUES = [
   orgNow:"I go to work, and everything after that is hitting deadlines. The week runs on due dates, not a plan.",
   orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication","Write tasks down the day I take them on, so procrastination doesn't cost me my reputation for reliability"],
   activities:"About 70 hours a week: 30 at work, 20 on class and homework, 20 on law school applications.",
-  alert:{lvl:"bad", text:"Growth has 20 points but takes about 61% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car."},
+  alert:{lvl:"bad", text:"Growth has 25 points but takes about 61% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car."},
   evidence:null,
   next:["6 months: about to start law school","1 year: in law school, looking for a summer internship","3 years: graduated with a job, focused on technology and AI law"],
   layer:{res:"IS + law + AI industry (very rare combo)", org:"Deadline-driven"}
@@ -496,7 +496,7 @@ function viewOverview(){
       <section class="card">
         <div class="section-head"><h2>Lifelines</h2><span class="muted" style="font-size:13px">Priority vs. time</span></div>
         ${VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,false)}</div>`).join("")}
-        <p class="note">Priority = my 100-point split (love 35, freedom 25, growth 20, faith 20). Time = share of my ${Math.round(WAKING)} waking hours. Freedom includes health.</p>
+        <p class="note">Priority = my 100-point split (love 30, freedom 25, growth 25, faith 20). Time = share of my ${Math.round(WAKING)} waking hours. Freedom includes health.</p>
       </section>
       <section class="card">
         <div class="section-head"><h2>Misalignments</h2><span class="muted" style="font-size:13px">Where the layers pull apart</span></div>
@@ -618,7 +618,7 @@ function viewReflection(){
       <ul>
         <li>My time is set by deadlines, not values. Growth gets 70 hours a week because it has due dates. Love, Faith, and Health don't, so they get whatever is left.</li>
         <li>I can't fully separate Growth from Love. Most of those 70 hours are how I plan to provide for my family. The real question is whether the investment is crowding out the thing it's supposed to protect.</li>
-        <li>I changed my priorities after seeing my real week. My first split was love 30, faith 30, freedom 10, growth 10, character 10. It only added to 90, and it didn't match my own ranking, since I listed faith fourth but gave it 30 points. My final split is love 35, freedom 25, growth 20, faith 20, which matches my ranking and is more honest about how much growth matters to me.</li>
+        <li>I changed my priorities after seeing my real week. My first split was love 30, faith 30, freedom 10, growth 10, character 10. It only added to 90, and it didn't match my own ranking, since I listed faith fourth but gave it 30 points. My final split is love 30, freedom 25, growth 25, faith 20, which matches my ranking and is more honest about how much growth matters to me.</li>
         <li>Health was hiding in plain sight. It wasn't in my top five, but it was my answer to "biggest tension" and "where my calendar contradicts my values." I put it inside Freedom, because being healthy is what keeps me free to adventure, and burnout is the opposite of freedom.</li>
         <li>Freedom is only half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, and the career I'm choosing is known for long hours that threaten both.</li>
         <li>I started with five values and cut Character. Honesty and integrity still matter to me, but they turned out to be <em>how</em> I live the other four, not a separate place my time goes. So I moved those ideas into Love (how I treat people) and Growth (my reputation for reliability).</li>
