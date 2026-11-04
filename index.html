@@ -245,23 +245,29 @@ const VALUES = [
  },
  {id:"freedom", name:"Freedom", sub:"Adventure and vitality", rank:2, pts:25,
   quote:"Everyone should have the chance to learn and figure out what they like and what they want to do.",
-  why:["Freedom is what makes growth possible: when you're free, you're able to learn.","At 40 I still want to be adventuring and enjoying the small things life offers, and that takes a body that can keep up.","I really do value health. Being healthy is what keeps me free; burnout is the opposite of freedom.","I want to live somewhere with always something to do, a big city or California."],
+  why:["Freedom is what makes a person themselves. It's where your interests get to grow, and the way you spend your free time says who you are and what you like to do.",
+   "I believe the freedom to do my hobbies and the things that make me happy is essential for a good, happy life. Without it, it's much harder to have a balanced life.",
+   "Health is part of freedom too. If you're not healthy, it's hard to have a good, balanced life at all. I like spending my free time bettering myself physically because it makes me feel like I'm becoming a better person."],
   resources:[
-   {t:"Portable skills that open doors: information systems, legal ops, EMT, Italian", r:"Very rare"},
-   {t:"Proven adaptability: thrived in a new country and language on my mission", r:"Rare"},
-   {t:"“Jack of all trades”: willing to try anything, learn it, and add it to my toolkit", r:"Rare"},
-   {t:"EMT training: I understand the body and what happens when health fails", r:"Rare"},
-   {t:"Energized by exercise and activity when I actually do it", r:"Common"},
-   {t:"Decision maker who does his best work independently", r:"Common"}],
+   {t:"I speak Italian, and one of my hobbies is learning more of it and spending time in Italian culture", r:"Rare"},
+   {t:"EMT certified, so I can spend some of my time in service, doing EMT work for others", r:"Rare"},
+   {t:"Strong technology and information skills, and I enjoy using them", r:"Common"},
+   {t:"I love strategy: board games are a hobby that also sharpens how I think", r:"Common"},
+   {t:"\u201cJack of all trades\u201d: willing to try anything new, learn it, and add it to my toolkit", r:"Rare"},
+   {t:"Energized by exercise and activity when I actually do it", r:"Common"}],
   orgNow:"I save weekends for something fun when I can. Exercise happens only if there's time left over, which is rarely.",
-  orgNext:["Keep one weekend block every week for a side quest","Schedule workouts like meetings: three runs and two strength sessions","Protect sleep before adding new commitments","Choose a legal path that protects flexibility, not just pay"],
-  activities:x=>`About ${fmt(x.n("fun"))} hours of fun this week, mostly on weekends, and ${fmt(x.n("exercise"))} hours of running or gym.`,
+  orgNext:["Set aside 5 hours every Saturday for something I want to do or a hobby I'm growing","About an hour during the week to keep that hobby going","A 30-minute workout every morning","A full 8 hours of sleep every night"],
+  activities:x=>`About ${fmt(x.n("fun"))} hours of fun this week, mostly on weekends, and ${fmt(x.n("exercise"))} hours of exercise.`,
+  activityList:["About 2 hours reading Italian","A couple of hours in the gym or running","A couple of hours playing board games"],
   alert:x=> x.lvl.freedom==="good" ? `Freedom gets about ${x.pct.freedom}% of my time, close to its ${x.P.freedom} points.`
         : x.d.freedom<0 ? `Freedom is low right now: about ${x.pct.freedom}% of my time for ${x.P.freedom} points. With work and school at this stage of my life, it's hard to find time for the things I actually enjoy.`
         : `Freedom gets about ${x.pct.freedom}% of my time, more than its ${x.P.freedom} points.`,
-  evidence:{text:"The CDC recommends 150 minutes of moderate activity or 75 minutes of vigorous activity a week, plus 2 days of strength training. Attorneys averaged 48 hours of work a week in 2024 and 51.7 in late 2025 (Bloomberg Law), and the 2025-2026 ABA well-being study tied longer hours to higher risk of burnout, anxiety, and depression.", links:[{url:"https://www.cdc.gov/physicalactivity/basics/adults/", label:"CDC guidelines"},{url:"https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar", label:"Bloomberg Law survey"},{url:"https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/", label:"ABA study"}]},
-  next:["Hit 150 minutes of exercise and 2 strength days every week","Train for my first marathon in early 2027","Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
-  layer:{res:"Portable skill set, EMT training", org:"Weekends; exercise only if time is left"}
+  evidence:null,
+  next:[
+   {k:"Now", items:["Fun mostly happens on weekends: reading Italian, board games, and some gym time when there's room"]},
+   {k:"Next few months", items:["5 hours every Saturday for something I want to do or a hobby I'm growing","About an hour during the week to keep that hobby going","A 30-minute workout every morning","A full 8 hours of sleep every night"]},
+   {k:"Long term", items:["For the rest of my life, keep learning new skills and growing hobbies I find interesting, like running my first marathon or learning another language on top of Italian","Pick a legal role partly by how much freedom it leaves me","Live somewhere with always something to do: a big city or California"]}],
+  layer:{res:"Italian, EMT, tech skills, love of strategy", org:"Weekends; exercise only if time is left"}
  },
  {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:25,
   quote:"When you're able to learn, you're able to become better, to become something new. It gives you purpose to keep moving forward.",
@@ -336,10 +342,10 @@ function alignment(hoursMap, ptsMap){
 }
 
 /* ---------------- STATE ---------------- */
-const DEFAULT_TARGETS = {love:25, freedom:10, exHours:2.5, healthStr:2, sleepWeek:52.5, growthCap:65, growthReps:2, faith:10, faithDays:6};
+const DEFAULT_TARGETS = {love:25, freedom:10, exHours:3.5, healthStr:2, sleepWeek:56, growthCap:65, growthReps:2, faith:10, faithDays:6};
 const FIELDS = {
  love:[{k:"wife",cal:1,label:"Hours with my wife",goal:"love"},{k:"date",t:"check",label:"Had a date night this week"}],
- freedom:[{k:"fun",cal:1,label:"Hours of fun or side quests",goal:"freedom"},{k:"exercise",cal:1,label:"Exercise hours",goal:"exHours",step:0.25},{k:"str",label:"Strength days",goal:"healthStr",max:7,step:1},{k:"sleep",cal:1,label:"Sleep hours this week",goal:"sleepWeek"},{k:"quest",t:"check",label:"Did something new this week"}],
+ freedom:[{k:"fun",cal:1,label:"Hours of fun or side quests",goal:"freedom"},{k:"exercise",cal:1,label:"Exercise hours",goal:"exHours",step:0.25},{k:"sleep",cal:1,label:"Sleep hours this week",goal:"sleepWeek"},{k:"quest",t:"check",label:"Did something new this week"}],
  growth:[{k:"work",cal:1,label:"Work hours"},{k:"class",cal:1,label:"Class + homework hours"},{k:"law",cal:1,label:"Law school hours"},{k:"_total",t:"total",keys:["work","class","law"],label:"Total growth hours",goal:"growthCap",cap:true},{k:"reps",label:"Writing or speaking practice sessions",goal:"growthReps",step:1}],
  faith:[{k:"church",cal:1,label:"Church hours"},{k:"spiritual",cal:1,label:"Spiritual study hours"},{k:"_total",t:"total",keys:["church","spiritual"],label:"Total faith hours",goal:"faith"},{k:"days",label:"Days with personal study",goal:"faithDays",max:7,step:1}]
 };
@@ -425,8 +431,9 @@ async function doSave(){
   }
   dirty = false;
 }
+function migrateTargets(t){ if(t.exHours===2.5) t.exHours=3.5; if(t.sleepWeek===52.5) t.sleepWeek=56; return t; }
 function loadLocal(){
-  try{ const s = JSON.parse(localStorage.getItem("pyramid-tracker")||"null"); if(s&&s.weeks) store={targets:{...DEFAULT_TARGETS,...(s.targets||{})}, weeks:s.weeks}; }catch(e){}
+  try{ const s = JSON.parse(localStorage.getItem("pyramid-tracker")||"null"); if(s&&s.weeks) store={targets:migrateTargets({...DEFAULT_TARGETS,...(s.targets||{})}), weeks:s.weeks}; }catch(e){}
 }
 async function initStore(){
   try{
@@ -440,7 +447,7 @@ async function initStore(){
         ref.onSnapshot(snap=>{
           if(!snap.metadata.fromCache) { clearTimeout(t); }
           if(dirty) return;
-          if(snap.exists){ const d=snap.data(); store={targets:{...DEFAULT_TARGETS,...(d.targets||{})}, weeks:JSON.parse(JSON.stringify(d.weeks||{}))}; }
+          if(snap.exists){ const d=snap.data(); store={targets:migrateTargets({...DEFAULT_TARGETS,...(d.targets||{})}), weeks:JSON.parse(JSON.stringify(d.weeks||{}))}; }
           setPill("Synced to your account");
           refreshLive();
         }, err=>{ clearTimeout(t); mode="local"; loadLocal(); setPill("Saving on this device"); refreshLive(); });
