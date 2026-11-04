@@ -728,11 +728,13 @@ function viewReflection(){
     <section class="card prose">
       <h2>What I learned building this</h2>
       <ul>
-        <li>My time is set by deadlines, not values. Growth gets 70 hours a week because it has due dates. Love, Faith, and Health don't, so they get whatever is left.</li>
+        <li>My time is set by deadlines, not values. Growth gets 70 hours a week because it has due dates. Love, Faith, and my health don't, so they get whatever is left.</li>
         <li>I can't fully separate Growth from Love. Most of those 70 hours are how I plan to provide for my family. The real question is whether the investment is crowding out the thing it's supposed to protect.</li>
-        <li>I changed my priorities after seeing my real week. My first split was love 30, faith 30, freedom 10, growth 10, character 10. It only added to 90, and it didn't match my own ranking, since I listed faith fourth but gave it 30 points. My final split is love 30, freedom 25, growth 25, faith 20, which matches my ranking and is more honest about how much growth matters to me.</li>
-        <li>Health was hiding in plain sight. It wasn't in my top five, but it was my answer to "biggest tension" and "where my calendar contradicts my values." I put it inside Freedom, because being healthy is what keeps me free to adventure, and burnout is the opposite of freedom.</li>
-        <li>Freedom is only half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, and the career I'm choosing is known for long hours that threaten both.</li>
+        <li>Growth is meant to be a season. I'm investing heavily now so that once I'm through school, those hours can shift toward my family and the other things I value.</li>
+        <li>Organization is where my pyramid breaks. My values are clear and my resources are strong, but nothing on my calendar protects Love, Freedom, or Faith. That's why most of my plan is about organization: a Friday date night, morning workouts, Saturday hobby time, daily scripture study, and time blocking.</li>
+        <li>Love and Freedom can work together. Doing fun things with my wife, like board games, the gym, or a hike, is one of the easiest ways to close two gaps at once.</li>
+        <li>Health was hiding in plain sight. It wasn't one of my values at first, but it was my answer to "biggest tension." I put it inside Freedom, because being healthy is what keeps me free to enjoy life, and burnout is the opposite of freedom.</li>
+        <li>Procrastination costs me real time. A one-hour assignment turns into two when I put it off, so cutting that inefficiency is one of the fastest ways to free up hours for what matters.</li>
         <li>I started with five values and cut Character. Honesty and integrity still matter to me, but they turned out to be <em>how</em> I live the other four, not a separate place my time goes. So I moved those ideas into Love, as part of how I treat people.</li>
       </ul>
     </section>
@@ -749,30 +751,19 @@ function viewReflection(){
       <section class="card prose">
         <h3>How I built it</h3>
         <ul>
-          <li>Answered about 40 reflection questions on values, resources, capabilities, activities, and the future.</li>
-          <li>Audited a real week of hours and compared it to a 100-point split of what matters.</li>
-          <li>Checked my gaps against outside benchmarks (exercise guidelines, couple-time research, lawyer workload data).</li>
-          <li>Designed the dashboard so the Organization layer becomes a weekly habit instead of a one-time assignment.</li>
+          <li>Answered about 40 reflection questions on my values, resources, capabilities, activities, and future.</li>
+          <li>Audited a real week of my hours and compared it to how I split 100 priority points across my values.</li>
+          <li>Went through every value tab and rewrote it in my own words: why it matters, what I have, how I'm organized, and what I actually do.</li>
+          <li>Built the calendar so I can update my hours every week and watch my alignment change, turning the Organization layer into a weekly habit instead of a one-time assignment.</li>
         </ul>
       </section>
     </div>
-    <section class="card prose sources">
-      <h3>Sources</h3>
-      <ul>
-        <li><a href="https://www.cdc.gov/physicalactivity/basics/adults/" target="_blank" rel="noopener">CDC, Adult Activity: An Overview</a></li>
-        <li><a href="https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/" target="_blank" rel="noopener">ABA, Survey of Lawyer Well-Being 2025-2026</a></li>
-        <li><a href="https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar" target="_blank" rel="noopener">Bloomberg Law, Attorney Workload and Hours Survey coverage</a></li>
-        <li><a href="https://www.legal.io/articles/5685631/Lawyers-Are-Working-More-Billing-Less-and-Many-Want-Out" target="_blank" rel="noopener">Legal.io, summary of Bloomberg Law's 2024 survey</a></li>
-        <li><a href="https://mrecenter.org/date-nights-matter/" target="_blank" rel="noopener">Summary of The Date Night Opportunity, National Marriage Project</a></li>
-      </ul>
-    </section>
     <section class="card prose">
       <h3>AI use disclosure</h3>
-      <p class="muted">I used Claude (Anthropic) as a support tool to generate reflection questions, organize my answers into the pyramid, find outside benchmarks, and build this dashboard. The values, experiences, numbers, and decisions are my own.</p>
+      <p class="muted">I used Claude (Anthropic) as a support tool to generate reflection questions, organize my answers into the pyramid, and build this dashboard. The values, experiences, numbers, and decisions are my own.</p>
     </section>
   </div>`;
 }
-
 
 /* ---------------- ROUTING & EVENTS ---------------- */
 const VALID = TABS.filter(t=>!t.sep).map(t=>t.id);
