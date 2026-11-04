@@ -185,6 +185,9 @@ table.hist td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:rig
 .calrow .unit{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
 .weekbar .seg.free{background:repeating-linear-gradient(45deg,transparent 0 5px,var(--soft) 5px 10px);box-shadow:inset 0 0 0 1px var(--line)}
 .overtxt{color:var(--bad)}
+.nownext.wide{grid-template-columns:96px minmax(0,1fr);row-gap:14px}
+.actlist{margin:0 0 14px;padding-left:18px;font-size:14.5px}
+.actlist li{margin:3px 0}
 .field.total label{font-weight:600}
 .totalval{font-size:15px;font-weight:500;min-width:72px;text-align:right;display:inline-block}
 .section-head .weeknav{margin-bottom:0}
@@ -232,7 +235,12 @@ const VALUES = [
         : x.d.love<0 ? `My #1 value, Love, gets about ${x.pct.love}% of my time. I want to push that closer to ${x.P.love}%. One way is to combine some of my Freedom time with my wife, so the things I do for fun are also time together: two birds with one stone.`
         : `Love gets about ${x.pct.love}% of my time, more than its ${x.P.love} points.`,
   evidence:null,
-  next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
+  activityList:["Playing board games together","Going to the gym together","A hike on the weekend when we have time"],
+  next:[
+   {k:"Now", items:["A protected date night every Friday, or at least once a week","A shared calendar so we plan our weeks together","Phone-away evenings from 10 p.m. until we fall asleep","Combine some of my Freedom time with my wife, so fun is also time together","Push my time with my wife from about 17% closer to 30% of my week"]},
+   {k:"Law school", items:["Keep date night and phone-away evenings going, even when 1L gets busy"]},
+   {k:"5 years", items:["A strong marriage where we've grown together as one and understand each other even better. We've started talking about the values we want to build our family on, and hopefully we're at a point where we can have a kid."]},
+   {k:"10 years", items:["We understand each other even more and have built the true foundation of our family. We've aligned on how we want to raise our family, and we keep adding to it and growing together."]}],
   layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
  },
  {id:"freedom", name:"Freedom", sub:"Adventure and vitality", rank:2, pts:25,
@@ -644,14 +652,17 @@ function viewValue(v){
       </section>
       <section class="card">
         <div class="layerlabel"><span class="n">LAYER 4</span><h3>Activities</h3></div>
-        <p style="font-size:14.5px;margin-bottom:12px" data-dyn="vact" data-id="${v.id}"></p>
+        <p style="font-size:14.5px;margin-bottom:${v.activityList?6:12}px" data-dyn="vact" data-id="${v.id}"></p>
+        ${v.activityList?`<ul class="actlist">${v.activityList.map(t=>`<li>${t}</li>`).join("")}</ul>`:""}
         ${trackerHTML(v)}
       </section>
     </div>
 
     <section class="card">
       <div class="layerlabel"><span class="n">PART 2</span><h3>Next version</h3></div>
-      <ul class="items">${v.next.map(t=>`<li><span>${t}</span></li>`).join("")}</ul>
+      ${typeof v.next[0]==="object"
+        ? `<div class="nownext wide">${v.next.map(g=>`<span class="k">${g.k}</span>${g.items.length>1?`<ul>${g.items.map(t=>`<li>${t}</li>`).join("")}</ul>`:`<span>${g.items[0]}</span>`}`).join("")}</div>`
+        : `<ul class="items">${v.next.map(t=>`<li><span>${t}</span></li>`).join("")}</ul>`}
     </section>
   </div>`;
 }
