@@ -176,6 +176,18 @@ table.hist td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:rig
 .prose p + p{margin-top:10px}
 .prose{max-width:68ch}
 .sources li{font-size:13.5px}
+
+.calgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px 22px;margin-top:6px}
+.calrow{display:grid;grid-template-columns:12px minmax(0,1fr) 70px 12px;gap:8px;align-items:center;font-size:14px;padding:3px 0;border-bottom:1px dashed var(--line)}
+.calrow i{width:10px;height:10px;border-radius:2px;display:block}
+.calrow input{width:70px;font:500 14px var(--f-mono);padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-align:right}
+.calrow input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.calrow .unit{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.weekbar .seg.free{background:repeating-linear-gradient(45deg,transparent 0 5px,var(--soft) 5px 10px);box-shadow:inset 0 0 0 1px var(--line)}
+.overtxt{color:var(--bad)}
+.field.total label{font-weight:600}
+.totalval{font-size:15px;font-weight:500;min-width:72px;text-align:right;display:inline-block}
+.section-head .weeknav{margin-bottom:0}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 </head>
@@ -188,7 +200,7 @@ table.hist td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:rig
       <h1>My Personal Pyramid</h1>
       <p class="lede">I wanted to build something I could keep using long after this class: a way to hold myself accountable to the values I'm working toward. This dashboard puts my values at the base of everything, then shows the resources and capabilities I build on them, how I organize my week, and the activities I actually do. It lets me see at a glance where my life lines up with what matters most, and where it doesn't.</p>
     </div>
-    <span class="savepill" id="savepill">Baseline audit: Nov 3, 2026</span>
+    <span class="savepill" id="savepill">Saves automatically</span>
   </header>
 
   <nav class="tabs" aria-label="Sections"><div class="tabrow" id="tabrow" role="tablist"></div></nav>
@@ -197,10 +209,10 @@ table.hist td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:rig
 
 <script>
 /* ---------------- DATA ---------------- */
-const WAKING = 168 - 52.5; // 7.5 h sleep a night
+const fmt = n => String(Math.round((+n||0)*10)/10);
 
 const VALUES = [
- {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:30, hours:20,
+ {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:30,
   quote:"Love is the most powerful thing there is. Without family and marriage, life gets a lot harder.",
   why:["My first value covers both my marriage and the family I want to build.","At 40 I want a strong family unit and kids I've taught to live happily and do good in the world.","Failure for me would be forgetting the importance of family and living life as a means to an end.","Love also shapes how I treat people: I can't stand lying for personal gain or throwing others under the bus. When values clash, I weigh the greater good, like giving up an hour if it makes a family's life 20 times easier, while still taking care of myself."],
   resources:[
@@ -210,31 +222,36 @@ const VALUES = [
    {t:"A calm, analytical temperament that keeps conflict small", r:"Common"}],
   orgNow:"Time with my wife fits around work, class, and deadlines. Nothing on the calendar protects it.",
   orgNext:["One protected date night every week, scheduled like a class","A shared calendar so we plan the week together","Phone-away evenings"],
-  activities:"About 20 hours a week with my wife, mostly evenings and weekends.",
-  alert:{lvl:"bad", text:"My #1 value (30 points) gets about 17% of my waking hours."},
-  evidence:{text:"Couples who set aside time just for each other at least once a week report higher relationship quality and lower divorce rates (National Marriage Project).", url:"https://mrecenter.org/date-nights-matter/", label:"Date Night Opportunity summary"},
+  activities:x=>`About ${fmt(x.n("wife"))} hours this week with my wife, mostly evenings and weekends.`,
+  alert:x=> x.lvl.love==="good" ? `Lined up: ${x.P.love} points and about ${x.pct.love}% of my waking hours with my wife.`
+        : x.d.love<0 ? `My #1 value (${x.P.love} points) gets about ${x.pct.love}% of my waking hours.`
+        : `Love gets about ${x.pct.love}% of my waking hours, more than its ${x.P.love} points.`,
+  evidence:{text:"Couples who set aside time just for each other at least once a week report higher relationship quality and lower divorce rates (National Marriage Project).", links:[{url:"https://mrecenter.org/date-nights-matter/", label:"Date Night Opportunity summary"}]},
   next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
   layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
  },
- {id:"freedom", name:"Freedom", sub:"Adventure and vitality", rank:2, pts:25, hours:11.5,
+ {id:"freedom", name:"Freedom", sub:"Adventure and vitality", rank:2, pts:25,
   quote:"Everyone should have the chance to learn and figure out what they like and what they want to do.",
   why:["Freedom is what makes growth possible: when you're free, you're able to learn.","At 40 I still want to be adventuring and enjoying the small things life offers, and that takes a body that can keep up.","I really do value health. Being healthy is what keeps me free; burnout is the opposite of freedom.","I want to live somewhere with always something to do, a big city or California."],
   resources:[
    {t:"Portable skills that open doors: information systems, legal ops, EMT, Italian", r:"Very rare"},
    {t:"Proven adaptability: thrived in a new country and language on my mission", r:"Rare"},
-   {t:"\u201cJack of all trades\u201d: willing to try anything, learn it, and add it to my toolkit", r:"Rare"},
+   {t:"“Jack of all trades”: willing to try anything, learn it, and add it to my toolkit", r:"Rare"},
    {t:"EMT training: I understand the body and what happens when health fails", r:"Rare"},
-   {t:"Energized by exercise and activity when I actually do it; sleep holding steady at 7 to 8 hours", r:"Common"},
+   {t:"Energized by exercise and activity when I actually do it", r:"Common"},
    {t:"Decision maker who does his best work independently", r:"Common"}],
   orgNow:"I save weekends for something fun when I can. Exercise happens only if there's time left over, which is rarely.",
   orgNext:["Keep one weekend block every week for a side quest","Schedule workouts like meetings: three runs and two strength sessions","Protect sleep before adding new commitments","Choose a legal path that protects flexibility, not just pay"],
-  activities:"About 10 hours a week of fun, mostly on weekends, and 1 to 2 hours of running or gym.",
-  alert:{lvl:"warn", text:"Half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, below the CDC minimum. Together that's about 10% of my waking hours for a value worth 25 points, and law's long hours put both halves at risk."},
+  activities:x=>`About ${fmt(x.n("fun"))} hours of fun this week, mostly on weekends, and ${fmt(x.n("exercise"))} hours of running or gym.`,
+  alert:x=>{ const ex=x.n("exercise"); const exT=`${fmt(ex)} hours of exercise${ex<2.5?", below the CDC minimum":""}`;
+    return x.lvl.freedom==="good" ? `Lined up: about ${x.pct.freedom}% of my waking hours for ${x.P.freedom} points, with ${exT}.`
+      : x.d.freedom<0 ? `About ${fmt(x.n("fun"))} hours of fun and ${exT}. Together that's about ${x.pct.freedom}% of my waking hours for a value worth ${x.P.freedom} points, and law's long hours put both at risk.`
+      : `Freedom gets about ${x.pct.freedom}% of my waking hours, more than its ${x.P.freedom} points, with ${exT}.`; },
   evidence:{text:"The CDC recommends 150 minutes of moderate activity or 75 minutes of vigorous activity a week, plus 2 days of strength training. Attorneys averaged 48 hours of work a week in 2024 and 51.7 in late 2025 (Bloomberg Law), and the 2025-2026 ABA well-being study tied longer hours to higher risk of burnout, anxiety, and depression.", links:[{url:"https://www.cdc.gov/physicalactivity/basics/adults/", label:"CDC guidelines"},{url:"https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar", label:"Bloomberg Law survey"},{url:"https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/", label:"ABA study"}]},
   next:["Hit 150 minutes of exercise and 2 strength days every week","Train for my first marathon in early 2027","Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
   layer:{res:"Portable skill set, EMT training", org:"Weekends; exercise only if time is left"}
  },
- {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:25, hours:70,
+ {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:25,
   quote:"When you're able to learn, you're able to become better, to become something new. It gives you purpose to keep moving forward.",
   why:["Staying stagnant is one of the things that frustrates me most.","I've always wanted to move toward my goals fast: I took an EMT class at 17 so I wouldn't stand still.","I want to be an attorney who helps regulate and govern how AI changes the world."],
   resources:[
@@ -247,13 +264,15 @@ const VALUES = [
    {t:"Capability: I learn new things fast, plan logistics, and solve technical problems", r:"Rare"}],
   orgNow:"I go to work, and everything after that is hitting deadlines. The week runs on due dates, not a plan.",
   orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication","Write tasks down the day I take them on, so procrastination doesn't cost me my reputation for reliability"],
-  activities:"About 70 hours a week: 30 at work, 20 on class and homework, 20 on law school applications.",
-  alert:{lvl:"bad", text:"Growth has 25 points but takes about 61% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car."},
+  activities:x=>`About ${fmt(x.H.growth)} hours this week: ${fmt(x.n("work"))} at work, ${fmt(x.n("class"))} on class and homework, ${fmt(x.n("law"))} on law school.`,
+  alert:x=> x.lvl.growth==="good" ? `Lined up: Growth takes about ${x.pct.growth}% of my waking hours for ${x.P.growth} points.`
+        : x.d.growth>0 ? `Growth has ${x.P.growth} points but takes about ${x.pct.growth}% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car.`
+        : `Growth gets about ${x.pct.growth}% of my waking hours, less than its ${x.P.growth} points.`,
   evidence:null,
   next:["6 months: about to start law school","1 year: in law school, looking for a summer internship","3 years: graduated with a job, focused on technology and AI law"],
   layer:{res:"IS + law + AI industry (very rare combo)", org:"Deadline-driven"}
  },
- {id:"faith", name:"Faith", sub:"Spiritual life", rank:4, pts:20, hours:7,
+ {id:"faith", name:"Faith", sub:"Spiritual life", rank:4, pts:20,
   quote:"You have no clue what's going to happen next in life. Relying on your faith is very important to being happy and successful.",
   why:["Faith is what completes us as humans, and at the end of the day it's what makes us happy.","It helps with the many things in life that can't be explained.","It drives a good amount of my priorities."],
   resources:[
@@ -262,28 +281,32 @@ const VALUES = [
    {t:"A church community and shared beliefs at home", r:"Common"}],
   orgNow:"Sunday church, plus spiritual thoughts when they fit into the day.",
   orgNext:["A daily anchor: personal study at the same time every day","Track days practiced, not just hours, since faith shows up in consistency"],
-  activities:"About 7 hours a week: 2 at church and around 5 of spiritual thoughts and study. It should be more.",
-  alert:{lvl:"bad", text:"Faith has 20 priority points but gets about 6% of my waking hours. I said it myself: it should be more."},
+  activities:x=>`About ${fmt(x.H.faith)} hours this week: ${fmt(x.n("church"))} at church and ${fmt(x.n("spiritual"))} of spiritual study and thoughts.`,
+  alert:x=> x.lvl.faith==="good" ? `Lined up: about ${x.pct.faith}% of my waking hours for ${x.P.faith} points.`
+        : x.d.faith<0 ? `Faith has ${x.P.faith} priority points but gets about ${x.pct.faith}% of my waking hours. I said it myself: it should be more.`
+        : `Faith gets about ${x.pct.faith}% of my waking hours, more than its ${x.P.faith} points.`,
   evidence:null,
   next:["Grow from about 7 to 10 hours a week","Personal study most days of the week"],
   layer:{res:"Mission in Milan: can do hard things", org:"Sunday + when it fits"}
  }
 ];
 const COLOR = id => `var(--c-${id})`;
+const TOTAL_PTS = VALUES.reduce((a,v)=>a+v.pts,0);
 
-const WEEK = [ // reported hours, week of Nov 3
- {k:"Sleep", h:52.5, c:"var(--soft)", border:true},
- {k:"Work", h:30, c:"var(--c-growth)"},
- {k:"Class + homework", h:20, c:"color-mix(in srgb, var(--c-growth) 70%, var(--surface))"},
- {k:"Law school apps", h:20, c:"color-mix(in srgb, var(--c-growth) 45%, var(--surface))"},
- {k:"Wife", h:20, c:"var(--c-love)"},
- {k:"Fun", h:10, c:"var(--c-freedom)"},
- {k:"Commute", h:10, c:"color-mix(in srgb, var(--muted) 45%, var(--surface))"},
- {k:"Spiritual", h:5, c:"var(--c-faith)"},
- {k:"Church", h:2, c:"color-mix(in srgb, var(--c-faith) 60%, var(--surface))"},
- {k:"Exercise", h:1.5, c:"color-mix(in srgb, var(--c-freedom) 50%, var(--surface))"}
+/* Calendar categories: each feeds a value (or none) */
+const CATS = [
+ {k:"sleep", label:"Sleep", v:null, c:"var(--soft)", border:true},
+ {k:"work", label:"Work", v:"growth", c:"var(--c-growth)"},
+ {k:"class", label:"Class + homework", v:"growth", c:"color-mix(in srgb, var(--c-growth) 70%, var(--surface))"},
+ {k:"law", label:"Law school prep", v:"growth", c:"color-mix(in srgb, var(--c-growth) 45%, var(--surface))"},
+ {k:"wife", label:"Time with my wife", v:"love", c:"var(--c-love)"},
+ {k:"fun", label:"Fun + side quests", v:"freedom", c:"var(--c-freedom)"},
+ {k:"exercise", label:"Exercise", v:"freedom", c:"color-mix(in srgb, var(--c-freedom) 50%, var(--surface))"},
+ {k:"spiritual", label:"Spiritual study", v:"faith", c:"var(--c-faith)"},
+ {k:"church", label:"Church", v:"faith", c:"color-mix(in srgb, var(--c-faith) 60%, var(--surface))"},
+ {k:"commute", label:"Commute", v:null, c:"color-mix(in srgb, var(--muted) 45%, var(--surface))"}
 ];
-const WEEK_TOTAL = WEEK.reduce((a,b)=>a+b.h,0); // 171
+const BASELINE_CAL = {sleep:49.5, work:30, class:20, law:20, wife:20, fun:10, exercise:1.5, spiritual:5, church:2, commute:10}; // my Nov 2026 audit week, 168 h
 
 const LAYERS = [
  {id:"activities", name:"Activities", q:"What do I actually do each week?"},
@@ -292,7 +315,6 @@ const LAYERS = [
  {id:"values", name:"Values & priorities", q:"What matters most, and how committed am I?"}
 ];
 
-/* baseline alignment: importance share vs time share over the time-tracked values */
 function alignment(hoursMap, ptsMap){
   const ids = Object.keys(hoursMap);
   const H = ids.reduce((a,i)=>a+hoursMap[i],0), P = ids.reduce((a,i)=>a+ptsMap[i],0);
@@ -300,17 +322,14 @@ function alignment(hoursMap, ptsMap){
   const tv = ids.reduce((a,i)=>a+Math.abs(hoursMap[i]/H - ptsMap[i]/P),0)/2;
   return Math.round((1-tv)*100);
 }
-const BASE_H = {}, BASE_P = {};
-VALUES.filter(v=>v.hours!=null).forEach(v=>{BASE_H[v.id]=v.hours; BASE_P[v.id]=v.pts;});
-const BASE_SCORE = alignment(BASE_H, BASE_P);
 
-/* ---------------- TRACKER STATE ---------------- */
-const DEFAULT_TARGETS = {love:25, freedom:10, growthCap:65, growthReps:2, faith:10, faithDays:6, charPct:90, healthMin:150, healthStr:2, sleep:7.5};
+/* ---------------- STATE ---------------- */
+const DEFAULT_TARGETS = {love:25, freedom:10, exHours:2.5, healthStr:2, sleepWeek:52.5, growthCap:65, growthReps:2, faith:10, faithDays:6};
 const FIELDS = {
- love:[{k:"hours",label:"Quality hours with my wife",t:"num",goal:"love",unit:"h"},{k:"date",label:"Had a date night this week",t:"check"}],
- freedom:[{k:"hours",label:"Hours of fun or side quests",t:"num",goal:"freedom",unit:"h"},{k:"quest",label:"Did something new this week",t:"check"},{k:"min",label:"Exercise minutes",t:"num",goal:"healthMin",unit:"m"},{k:"str",label:"Strength days",t:"num",goal:"healthStr",unit:"d",max:7},{k:"sleep",label:"Average sleep per night",t:"num",goal:"sleep",unit:"h",step:0.5}],
- growth:[{k:"hours",label:"Work + class + law school hours",t:"num",goal:"growthCap",unit:"h",cap:true},{k:"reps",label:"Writing or speaking practice sessions",t:"num",goal:"growthReps",unit:"x"}],
- faith:[{k:"hours",label:"Church + study hours",t:"num",goal:"faith",unit:"h"},{k:"days",label:"Days with personal study",t:"num",goal:"faithDays",unit:"d",max:7}]
+ love:[{k:"wife",cal:1,label:"Hours with my wife",goal:"love"},{k:"date",t:"check",label:"Had a date night this week"}],
+ freedom:[{k:"fun",cal:1,label:"Hours of fun or side quests",goal:"freedom"},{k:"exercise",cal:1,label:"Exercise hours",goal:"exHours",step:0.25},{k:"str",label:"Strength days",goal:"healthStr",max:7,step:1},{k:"sleep",cal:1,label:"Sleep hours this week",goal:"sleepWeek"},{k:"quest",t:"check",label:"Did something new this week"}],
+ growth:[{k:"work",cal:1,label:"Work hours"},{k:"class",cal:1,label:"Class + homework hours"},{k:"law",cal:1,label:"Law school hours"},{k:"_total",t:"total",keys:["work","class","law"],label:"Total growth hours",goal:"growthCap",cap:true},{k:"reps",label:"Writing or speaking practice sessions",goal:"growthReps",step:1}],
+ faith:[{k:"church",cal:1,label:"Church hours"},{k:"spiritual",cal:1,label:"Spiritual study hours"},{k:"_total",t:"total",keys:["church","spiritual"],label:"Total faith hours",goal:"faith"},{k:"days",label:"Days with personal study",goal:"faithDays",max:7,step:1}]
 };
 let store = {targets:{...DEFAULT_TARGETS}, weeks:{}};
 let mode = "none", ref = null, dirty = false, saving = Promise.resolve(), saveTimer = null;
@@ -321,29 +340,61 @@ function shiftWeek(k,n){const [y,m,d]=k.split("-").map(Number); const x=new Date
 function weekLabel(k){const [y,m,d]=k.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}
 let curWeek = weekKey(new Date());
 
+function getCal(k){
+  if(store.weeks[k] && store.weeks[k].calendar) return store.weeks[k].calendar;
+  const prior = Object.keys(store.weeks).filter(x=>x<k && store.weeks[x].calendar).sort().pop();
+  return prior ? store.weeks[prior].calendar : BASELINE_CAL;
+}
+function ensureCal(k){ store.weeks[k]=store.weeks[k]||{}; if(!store.weeks[k].calendar) store.weeks[k].calendar={...BASELINE_CAL,...getCal(k)}; return store.weeks[k].calendar; }
+
+function ctxFor(k){
+  const c = {...BASELINE_CAL, ...getCal(k)};
+  const n = key => Math.max(0, +c[key]||0);
+  const H = {}; VALUES.forEach(v=>H[v.id]=0);
+  CATS.forEach(cat=>{ if(cat.v) H[cat.v]+=n(cat.k); });
+  const P = {}; VALUES.forEach(v=>P[v.id]=v.pts);
+  const total = CATS.reduce((a,cat)=>a+n(cat.k),0);
+  const waking = Math.max(1, 168 - n("sleep"));
+  const sumH = Object.values(H).reduce((a,b)=>a+b,0);
+  const share={}, d={}, lvl={}, pct={};
+  VALUES.forEach(v=>{
+    share[v.id] = sumH ? H[v.id]/sumH : 0;
+    d[v.id] = share[v.id] - v.pts/TOTAL_PTS;
+    const ad = Math.abs(d[v.id]);
+    lvl[v.id] = ad<0.04 ? "good" : ad<0.08 ? "warn" : "bad";
+    pct[v.id] = Math.round(H[v.id]/waking*100);
+  });
+  return {c, n, H, P, total, waking, share, d, lvl, pct, score: alignment(H,P)};
+}
+
 const clamp1 = x => Math.max(0, Math.min(1, x));
-function valueScore(id, w, T){
-  if(!w) return null;
-  const has = k => w[k]!==undefined && w[k]!=="" && w[k]!==null;
+function fieldVal(f, k, x){
+  const w = (store.weeks[k]||{})[f.v]||{};
+  if(f.cal) return x.n(f.k);
+  if(f.t==="total") return f.keys.reduce((a,key)=>a+x.n(key),0);
+  const val = w[f.k]; return (val===undefined||val===null||val==="") ? null : +val;
+}
+function fieldProg(f, val){
+  const T = store.targets[f.goal]; if(!T || val==null) return null;
+  return f.cap ? (val<=T ? 1 : clamp1(T/val)) : clamp1(val/T);
+}
+function valueScore(id, k){
+  const x = ctxFor(k); const w = (store.weeks[k]||{})[id]||{};
   const parts = [];
-  if(id==="love"){ if(has("hours")) parts.push(clamp1(w.hours/T.love)); if(has("date")) parts.push(w.date?1:0); }
-  if(id==="freedom"){ if(has("hours")) parts.push(clamp1(w.hours/T.freedom)); if(has("quest")) parts.push(w.quest?1:0); if(has("min")) parts.push(clamp1(w.min/T.healthMin)); if(has("str")) parts.push(clamp1(w.str/T.healthStr)); if(has("sleep")) parts.push(clamp1(w.sleep/T.sleep)); }
-  if(id==="growth"){ if(has("hours")) parts.push(w.hours<=T.growthCap?1:clamp1(T.growthCap/w.hours)); if(has("reps")) parts.push(clamp1(w.reps/T.growthReps)); }
-  if(id==="faith"){ if(has("hours")) parts.push(clamp1(w.hours/T.faith)); if(has("days")) parts.push(clamp1(w.days/T.faithDays)); }
+  FIELDS[id].forEach(f0=>{
+    const f = {...f0, v:id};
+    if(f.t==="check"){ if(w[f.k]!==undefined) parts.push(w[f.k]?1:0); return; }
+    if(!f.goal) return;
+    const p = fieldProg(f, fieldVal(f,k,x)); if(p!=null) parts.push(p);
+  });
   return parts.length ? Math.round(parts.reduce((a,b)=>a+b,0)/parts.length*100) : null;
 }
 function weekScore(k){
-  const w = store.weeks[k]; if(!w) return null;
-  const s = VALUES.map(v=>valueScore(v.id, w[v.id], store.targets)).filter(x=>x!=null);
+  const s = VALUES.map(v=>valueScore(v.id,k)).filter(x=>x!=null);
   return s.length ? Math.round(s.reduce((a,b)=>a+b,0)/s.length) : null;
 }
-function weekAlignment(k){
-  const w = store.weeks[k]; if(!w) return null;
-  const H={},P={}; let any=false;
-  VALUES.filter(v=>v.hours!=null).forEach(v=>{ const x=w[v.id]||{}; let h = (x.hours!=null&&x.hours!=="") ? +x.hours : null; if(v.id==="freedom" && x.min!=null && x.min!==""){ h=(h||0)+x.min/60; } if(h!=null){ any=true; H[v.id]=h; P[v.id]=v.pts; } });
-  return any && Object.keys(H).length>=3 ? alignment(H,P) : null;
-}
 
+/* ---------------- SAVING ---------------- */
 function setPill(text){ const p=document.getElementById("savepill"); if(p) p.textContent=text; }
 function scheduleSave(){
   dirty = true; setPill("Saving…");
@@ -373,12 +424,12 @@ async function initStore(){
       if(db && uid){
         ref = db.doc("data/users/"+uid+"/tracker");
         mode = "db";
-        const t = setTimeout(()=>setPill("Tracker data can't be reached yet"), 10000);
+        const t = setTimeout(()=>setPill("Saved data can't be reached yet"), 10000);
         ref.onSnapshot(snap=>{
           if(!snap.metadata.fromCache) { clearTimeout(t); }
           if(dirty) return;
           if(snap.exists){ const d=snap.data(); store={targets:{...DEFAULT_TARGETS,...(d.targets||{})}, weeks:JSON.parse(JSON.stringify(d.weeks||{}))}; }
-          setPill(Object.keys(store.weeks).length? "Synced to your account" : "Tracker ready");
+          setPill("Synced to your account");
           refreshLive();
         }, err=>{ clearTimeout(t); mode="local"; loadLocal(); setPill("Saving on this device"); refreshLive(); });
         return;
@@ -389,20 +440,61 @@ async function initStore(){
 }
 
 /* ---------------- RENDER HELPERS ---------------- */
-const pct = (h) => Math.round(h/WAKING*100);
 function rarityChip(r){ const cls = r==="Very rare"?"vrare":r==="Rare"?"rare":""; return `<span class="chip ${cls}">${r}</span>`; }
-function lifeBars(v, big){
-  const imp = v.pts, time = v.hours==null?null:pct(v.hours);
-  const timeRow = time==null
-    ? `<div class="barrow"><span class="muted" style="font-size:12.5px;grid-column:1 / -1">Time: tracked by commitments kept, not hours</span></div>`
-    : `<div class="barrow">${big?'<span class="lab">My time</span>':''}<div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab">${big?'':'time '}${time}%</span></div>`;
-  const impRow = `<div class="barrow">${big?'<span class="lab">My priority</span>':''}<div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab">${big?'':'priority '}${imp?imp+' pts':'0 pts'}</span></div>`;
+const pillWord = (lvl, long) => lvl==="bad" ? (long?"Misaligned":"Gap") : lvl==="warn" ? "Watch" : "Aligned";
+function lifeBars(v, x, big){
+  const imp = v.pts, time = x.pct[v.id];
   if(big){
-    const timeBig = time==null ? `<div class="barrow"><span class="lab">My time</span><span class="muted" style="font-size:13px">Tracked by commitments kept, not hours</span><span></span></div>` : `<div class="barrow"><span class="lab">My time</span><div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${time}%</span></div>`;
-    const impBig = `<div class="barrow"><span class="lab">My priority</span><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${imp} pts</span></div>`;
-    return `<div class="bars biglife">${impBig}${timeBig}</div>`;
+    return `<div class="bars biglife">
+      <div class="barrow"><span class="lab">My priority</span><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${imp} pts</span></div>
+      <div class="barrow"><span class="lab">My time</span><div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${time}%</span></div></div>`;
   }
-  return `<div class="bars">${impRow}${timeRow}</div>`;
+  return `<div class="bars">
+    <div class="barrow"><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab">priority ${imp} pts</span></div>
+    <div class="barrow"><div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab">time ${time}%</span></div></div>`;
+}
+function weekNav(){
+  return `<div class="weeknav"><button type="button" data-week="-1" aria-label="Previous week">←</button><b class="num" style="font-size:13px">Week of ${weekLabel(curWeek)}</b><button type="button" data-week="1" aria-label="Next week">→</button>${curWeek!==weekKey(new Date())?`<button type="button" data-week="0">This week</button>`:""}</div>`;
+}
+
+/* Live pieces: any element with data-dyn is rebuilt from the current week's numbers */
+const DYN = {
+  score(){ const x=ctxFor(curWeek); const s=x.score??0; return `
+    <div class="score" style="margin-top:8px"><span class="big">${s}</span><span class="muted">/ 100</span></div>
+    <div class="meter"><i style="width:${s}%"></i></div>
+    <p style="font-size:14px">How closely my hours match my priority points. 100 would mean every value gets time in the same proportion I say it matters. Right now about ${100-s}% of my time is in the wrong place.</p>`; },
+  weekbar(){ const x=ctxFor(curWeek); const scale=Math.max(168,x.total);
+    const segs = CATS.map(cat=>{ const h=x.n(cat.k); return h>0?`<div class="seg" title="${cat.label}: ${fmt(h)} h" style="flex:${h} 0 0;background:${cat.c};${cat.border?'box-shadow:inset 0 0 0 1px var(--line)':''}"></div>`:""; }).join("");
+    const free = x.total<168 ? `<div class="seg free" title="Unscheduled: ${fmt(168-x.total)} h" style="flex:${168-x.total} 0 0"></div>` : "";
+    const limit = x.total>168 ? `<div class="limit" style="left:${168/scale*100}%"><span>168 h</span></div>` : "";
+    return `<div class="weekbar"><div class="track">${segs}${free}</div>${limit}</div>`; },
+  caltotal(){ const x=ctxFor(curWeek); const t=x.total;
+    const status = Math.abs(t-168)<0.01 ? `<b>All 168 hours accounted for.</b>` : t<168 ? `<b>${fmt(168-t)} hours unscheduled.</b>` : `<b class="overtxt">Over by ${fmt(t-168)} hours.</b> That's more than a week holds.`;
+    return `<span class="num">${fmt(t)} of 168 h</span> · ${status} Growth takes ${fmt(x.H.growth)} of my ${fmt(x.waking)} waking hours; exercise takes ${fmt(x.n("exercise"))}.`; },
+  lifelines(){ const x=ctxFor(curWeek); return VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,x,false)}</div>`).join("")
+    + `<p class="note">Priority = my 100-point split (${VALUES.map(v=>v.name.toLowerCase()+" "+v.pts).join(", ")}). Time = share of my ${fmt(x.waking)} waking hours this week. Freedom includes health.</p>`; },
+  alerts(){ const x=ctxFor(curWeek);
+    const list = [];
+    if(x.total>168.01) list.push({lvl:"bad", h:"My week doesn't fit in a week", t:`I logged ${fmt(x.total)} hours in a 168-hour week.`});
+    VALUES.forEach(v=>list.push({lvl:x.lvl[v.id], h:v.name, t:v.alert(x)}));
+    list.push({lvl:"warn", h:"Organization", t:"My week is run by deadlines instead of a system. This dashboard is my first attempt at fixing that layer."});
+    list.push({lvl:"warn", h:"Reliability", t:"Procrastination is the biggest threat to my reliability, and reliability is one of my most valuable resources."});
+    const order={bad:0,warn:1,good:2}; list.sort((a,b)=>order[a.lvl]-order[b.lvl]);
+    return `<ul class="alerts">${list.map(a=>`<li><span class="pill ${a.lvl}">${pillWord(a.lvl)}</span><div><b>${a.h}.</b> ${a.t}</div></li>`).join("")}</ul>`; },
+  history(){ const rows = Object.keys(store.weeks).sort().reverse().map(k=>{
+      const s=weekScore(k), a=ctxFor(k).score;
+      return `<tr><td>${weekLabel(k)}</td><td>${s==null?"–":s+"%"}</td><td>${a==null?"–":a}</td></tr>`; }).join("");
+    return rows ? `<div class="tablewrap"><table class="hist"><thead><tr><th>Week of</th><th>On-track</th><th>Alignment</th></tr></thead><tbody>${rows}</tbody></table></div>`
+      : `<p class="muted" style="font-size:14px">No weeks logged yet. Change any hours above or fill in a value tab's tracker, and each week's on-track score and alignment will show up here.</p>`; },
+  vpill(id){ const x=ctxFor(curWeek); const l=x.lvl[id]; return `<span class="pill ${l}">${pillWord(l,true)}</span>`; },
+  vbig(id){ const x=ctxFor(curWeek); return lifeBars(VALUES.find(v=>v.id===id), x, true); },
+  vgap(id){ const x=ctxFor(curWeek); return `<b>The gap:</b> ${VALUES.find(v=>v.id===id).alert(x)}`; },
+  vact(id){ const x=ctxFor(curWeek); return VALUES.find(v=>v.id===id).activities(x); },
+  layer(){ return layerPanel(selLayer); }
+};
+function refreshDynamic(){
+  document.querySelectorAll("[data-dyn]").forEach(el=>{ const f=DYN[el.dataset.dyn]; if(f) el.innerHTML=f(el.dataset.id); });
+  updateScores();
 }
 
 /* ---------------- VIEWS ---------------- */
@@ -411,7 +503,6 @@ function renderTabs(active){
   document.getElementById("tabrow").innerHTML = TABS.map(t=> t.sep ? `<span class="tabsep" aria-hidden="true"></span>` :
     `<button class="tab" role="tab" id="tab-${t.id}" aria-selected="${t.id===active}" data-go="${t.id}">${t.dot?`<span class="dot" style="background:${COLOR(t.dot)}"></span>`:""}${t.name}</button>`).join("");
 }
-
 function pyramidSVG(sel){
   const top=12, h=60, gap=3, k=0.6, cx=210;
   const hw = y => (y-top)*k + 6;
@@ -431,13 +522,13 @@ function pyramidSVG(sel){
   return out + `</svg>`;
 }
 function layerPanel(sel){
-  const L = LAYERS.find(l=>l.id===sel);
+  const L = LAYERS.find(l=>l.id===sel); const x = ctxFor(curWeek);
   const rows = VALUES.map(v=>{
     let txt="";
     if(sel==="values") txt = `#${v.rank} · ${v.pts} points · ${v.sub}`;
     if(sel==="resources") txt = v.layer.res;
     if(sel==="organization") txt = v.layer.org;
-    if(sel==="activities") txt = v.hours==null ? "Commitments kept (not hours)" : `${v.hours} h/week · ${pct(v.hours)}% of waking hours`;
+    if(sel==="activities") txt = `${fmt(x.H[v.id])} h/week · ${x.pct[v.id]}% of waking hours`;
     return `<li><b><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</b><span>${txt}</span></li>`;
   }).join("");
   return `<div class="eyebrow">${L.name}</div><h3 style="margin-top:4px">${L.q}</h3><ul>${rows}</ul>`;
@@ -445,114 +536,101 @@ function layerPanel(sel){
 
 let selLayer = "values";
 function viewOverview(){
-  const alerts = [
-    {lvl:"bad", h:"My week doesn't fit in a week", t:`I reported ${WEEK_TOTAL} hours of commitments in a 168-hour week, before meals, chores, or my phone.`},
-    ...VALUES.map(v=>({lvl:v.alert.lvl, h:v.name, t:v.alert.text, id:v.id})),
-    {lvl:"warn", h:"Organization", t:"My week is run by deadlines instead of a system. This dashboard is my first attempt at fixing that layer."},
-    {lvl:"warn", h:"Reliability", t:"Procrastination is the biggest threat to my reliability, and reliability is one of my most valuable resources."}
-  ];
-  const order={bad:0,warn:1,good:2};
-  alerts.sort((a,b)=>order[a.lvl]-order[b.lvl]);
-  const histRows = Object.keys(store.weeks).sort().reverse().map(k=>{
-    const s=weekScore(k), a=weekAlignment(k);
-    if(s==null && a==null) return "";
-    return `<tr><td>${weekLabel(k)}</td><td>${s==null?"–":s}</td><td>${a==null?"–":a}</td></tr>`;
-  }).join("");
+  const x = ctxFor(curWeek);
+  const calInputs = CATS.map(cat=>`<label class="calrow" for="cal-${cat.k}"><i style="background:${cat.c};${cat.border?'box-shadow:inset 0 0 0 1px var(--muted)':''}"></i><span>${cat.label}</span><input type="number" inputmode="decimal" min="0" max="168" step="0.5" id="cal-${cat.k}" data-cal="1" data-k="${cat.k}" value="${fmt(x.n(cat.k))}"><span class="unit">h</span></label>`).join("");
   return `
   <div class="stack">
     <div class="grid-hero">
       <section class="card pyr">
         <div class="section-head"><h2>The pyramid</h2><span class="muted" style="font-size:13px">Tap a layer</span></div>
         ${pyramidSVG(selLayer)}
-        <div class="layerpanel" id="layerpanel">${layerPanel(selLayer)}</div>
+        <div class="layerpanel" id="layerpanel" data-dyn="layer"></div>
       </section>
       <div class="stack">
         <section class="card">
-          <div class="eyebrow">Alignment score* · baseline</div>
-          <div class="score" style="margin-top:8px"><span class="big">${BASE_SCORE}</span><span class="muted">/ 100</span></div>
-          <div class="meter"><i style="width:${BASE_SCORE}%"></i></div>
-          <p style="font-size:14px">How closely my hours match my priority points. 100 would mean every value gets time in the same proportion I say it matters. Right now about ${100-BASE_SCORE}% of my time is in the wrong place.</p>
+          <div class="eyebrow">Alignment score*</div>
+          <div data-dyn="score"></div>
           <p class="note">*The alignment score compares the priority points I gave each value with the percent of my time I actually spend living that value.</p>
         </section>
         <section class="card">
-          <div class="eyebrow">My personal competitive advantage <span class="draft">Draft</span></div>
+          <div class="eyebrow">My personal competitive advantage</div>
           <p class="thesis" style="margin-top:10px">A future attorney who has invested in understanding technology. I'm finishing a degree in Information Systems and working on the legal team of a software company, and I plan to use those technical skills to help govern the new legal questions technology is creating.</p>
         </section>
       </div>
     </div>
 
     <section class="card">
-      <div class="section-head"><h2>If someone only looked at my calendar</h2><span class="muted num" style="font-size:13px">${WEEK_TOTAL} of 168 h</span></div>
-      <p class="muted" style="font-size:14px;max-width:70ch">The question from the Personal Pyramid slide. This is my reported week of Nov 3, 2026. The dashed line is the end of the week.</p>
-      <div class="weekbar">
-        <div class="track">${WEEK.map(s=>`<div class="seg" title="${s.k}: ${s.h} h" style="flex:${s.h} 0 0;background:${s.c};${s.border?'box-shadow:inset 0 0 0 1px var(--line)':''}"></div>`).join("")}</div>
-        <div class="limit" style="left:${168/WEEK_TOTAL*100}%"><span>168 h</span></div>
-      </div>
-      <div class="legend">${WEEK.map(s=>`<span><i style="background:${s.c};${s.border?'box-shadow:inset 0 0 0 1px var(--muted)':''}"></i>${s.k} <span class="num">${s.h}</span></span>`).join("")}</div>
-      <p class="note">Growth (work, class, law school) takes 70 of my roughly ${Math.round(WAKING)} waking hours. Exercise takes 1.5.</p>
+      <div class="section-head"><h2>If someone only looked at my calendar</h2>${weekNav()}</div>
+      <p class="muted" style="font-size:14px;max-width:70ch">This is how I spend my time each week. Change any number and everything on the page updates.</p>
+      <div data-dyn="weekbar"></div>
+      <div class="calgrid">${calInputs}</div>
+      <p class="note" data-dyn="caltotal"></p>
+      <div style="margin-top:10px"><button type="button" class="btn" data-reset="1">Reset this week to my baseline</button></div>
     </section>
 
     <div class="grid2">
       <section class="card">
         <div class="section-head"><h2>Lifelines</h2><span class="muted" style="font-size:13px">Priority vs. time</span></div>
-        ${VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,false)}</div>`).join("")}
-        <p class="note">Priority = my 100-point split (love 30, freedom 25, growth 25, faith 20). Time = share of my ${Math.round(WAKING)} waking hours. Freedom includes health.</p>
+        <div data-dyn="lifelines"></div>
       </section>
       <section class="card">
         <div class="section-head"><h2>Misalignments</h2><span class="muted" style="font-size:13px">Where the layers pull apart</span></div>
-        <ul class="alerts">${alerts.map(a=>`<li><span class="pill ${a.lvl}">${a.lvl==="bad"?"Gap":a.lvl==="warn"?"Watch":"Aligned"}</span><div><b>${a.h}.</b> ${a.t}</div></li>`).join("")}</ul>
+        <div data-dyn="alerts"></div>
       </section>
     </div>
 
     <section class="card">
-      <div class="section-head"><h2>Weekly log</h2><span class="muted" style="font-size:13px">Log a week on any value tab</span></div>
-      ${histRows ? `<div class="tablewrap"><table class="hist"><thead><tr><th>Week of</th><th>On-track score</th><th>Alignment</th></tr></thead><tbody>${histRows}</tbody></table></div>`
-        : `<p class="muted" style="font-size:14px">No weeks logged yet. Open any value tab and fill in this week's tracker. Your on-track score and alignment will show up here week by week, so this page keeps working after the class ends.</p>`}
+      <div class="section-head"><h2>Weekly log</h2><span class="muted" style="font-size:13px">One row per week</span></div>
+      <div data-dyn="history"></div>
     </section>
   </div>`;
 }
 
 function trackerHTML(v){
+  const x = ctxFor(curWeek);
   const w = (store.weeks[curWeek]||{})[v.id]||{};
   const T = store.targets;
-  const rows = FIELDS[v.id].map(f=>{
+  const rows = FIELDS[v.id].map(f0=>{
+    const f = {...f0, v:v.id};
     const id = `f-${v.id}-${f.k}`;
     if(f.t==="check") return `<div class="field"><label for="${id}">${f.label}</label><div class="ctl"><input type="checkbox" id="${id}" data-v="${v.id}" data-k="${f.k}" ${w[f.k]?"checked":""}></div></div>`;
-    const val = w[f.k]??"";
-    const goal = f.goal ? `<span class="goal"><label for="g-${v.id}-${f.k}">${f.cap?"cap":"goal"}</label><input type="number" min="0" step="${f.step||1}" id="g-${v.id}-${f.k}" data-goal="${f.goal}" value="${T[f.goal]}"></span>` : "";
-    const progress = f.goal && val!=="" ? (f.cap ? (val<=T[f.goal]?100:Math.round(T[f.goal]/val*100)) : Math.round(clamp1(val/T[f.goal])*100)) : 0;
-    return `<div class="field"><label for="${id}">${f.label}</label><div class="ctl"><input type="number" inputmode="decimal" min="0" ${f.max?`max="${f.max}"`:""} step="${f.step||(f.unit==="h"?0.5:1)}" id="${id}" data-v="${v.id}" data-k="${f.k}" value="${val}" placeholder="0">${goal}</div>${f.goal?`<div class="prog"><i id="p-${v.id}-${f.k}" style="width:${progress}%"></i></div>`:""}</div>`;
+    const val = fieldVal(f, curWeek, x);
+    const goal = f.goal ? `<span class="goal"><label for="g-${v.id}-${f.k}">${f.cap?"cap":"goal"}</label><input type="number" min="0" step="${f.step||0.5}" id="g-${v.id}-${f.k}" data-goal="${f.goal}" value="${T[f.goal]}"></span>` : "";
+    const p = f.goal ? fieldProg(f, val) : null;
+    const input = f.t==="total"
+      ? `<span class="num totalval" id="t-${v.id}">${fmt(val)}</span>`
+      : `<input type="number" inputmode="decimal" min="0" ${f.max?`max="${f.max}"`:""} step="${f.step||0.5}" id="${id}" ${f.cal?`data-cal="1"`:`data-v="${v.id}"`} data-k="${f.k}" value="${val==null?"":fmt(val)}" placeholder="0">`;
+    return `<div class="field${f.t==="total"?" total":""}"><label for="${id}">${f.label}</label><div class="ctl">${input}${goal}</div>${f.goal?`<div class="prog"><i id="p-${v.id}-${f.k}" style="width:${Math.round((p||0)*100)}%"></i></div>`:""}</div>`;
   }).join("");
-  const s = valueScore(v.id, w, T);
+  const s = valueScore(v.id, curWeek);
   return `<div class="tracker">
-    <div class="weeknav"><button type="button" data-week="-1" aria-label="Previous week">←</button><b class="num" style="font-size:13px">Week of ${weekLabel(curWeek)}</b><button type="button" data-week="1" aria-label="Next week">→</button>${curWeek!==weekKey(new Date())?`<button type="button" data-week="0">This week</button>`:""}</div>
+    ${weekNav()}
     <div class="fields">${rows}</div>
     <div class="vscore"><span>On-track this week</span><span class="num" id="vs-${v.id}">${s==null?"–":s+"%"}</span></div>
   </div>`;
 }
 
 function viewValue(v){
-  const evLinks = v.evidence ? (v.evidence.links || [{url:v.evidence.url, label:v.evidence.label}]) : [];
-  const ev = v.evidence ? `<p class="note">${v.evidence.text} ${evLinks.map(l=>`<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join(" · ")}</p>` : "";
+  const ev = v.evidence ? `<p class="note">${v.evidence.text} ${v.evidence.links.map(l=>`<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join(" · ")}</p>` : "";
   return `<div class="stack" style="--vc:${COLOR(v.id)}">
     <section class="card">
       <div class="vhead">
         <div>
-          <div class="rank">${v.foundation?"Foundation · not in my top five":`Value #${v.rank} · ${v.pts} priority points`}</div>
+          <div class="rank">Value #${v.rank} · ${v.pts} priority points</div>
           <h2>${v.name}</h2>
           <div class="muted">${v.sub}</div>
         </div>
-        <span class="pill ${v.alert.lvl}" style="margin-top:6px">${v.alert.lvl==="bad"?"Misaligned":v.alert.lvl==="warn"?"Watch":"Aligned"}</span>
+        <span style="margin-top:6px" data-dyn="vpill" data-id="${v.id}"></span>
       </div>
       <blockquote>${v.quote}</blockquote>
-      <div style="margin-top:20px">${lifeBars(v,true)}</div>
-      <p style="margin-top:12px;font-size:14.5px"><b>The gap:</b> ${v.alert.text}</p>
+      <div style="margin-top:20px" data-dyn="vbig" data-id="${v.id}"></div>
+      <p style="margin-top:12px;font-size:14.5px" data-dyn="vgap" data-id="${v.id}"></p>
     </section>
 
     <div class="grid2">
       <section class="card">
         <div class="layerlabel"><span class="n">LAYER 1</span><h3>Values: why it matters</h3></div>
-        <ul class="items">${v.why.map(x=>`<li><span>${x}</span></li>`).join("")}</ul>
+        <ul class="items">${v.why.map(t=>`<li><span>${t}</span></li>`).join("")}</ul>
       </section>
       <section class="card">
         <div class="layerlabel"><span class="n">LAYER 2</span><h3>Resources & capabilities</h3></div>
@@ -561,19 +639,19 @@ function viewValue(v){
       </section>
       <section class="card">
         <div class="layerlabel"><span class="n">LAYER 3</span><h3>Organization</h3></div>
-        <div class="nownext"><span class="k">Now</span><span>${v.orgNow}</span><span class="k">Next</span><ul>${v.orgNext.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        <div class="nownext"><span class="k">Now</span><span>${v.orgNow}</span><span class="k">Next</span><ul>${v.orgNext.map(t=>`<li>${t}</li>`).join("")}</ul></div>
         ${ev}
       </section>
       <section class="card">
         <div class="layerlabel"><span class="n">LAYER 4</span><h3>Activities</h3></div>
-        <p style="font-size:14.5px;margin-bottom:12px">${v.activities}</p>
+        <p style="font-size:14.5px;margin-bottom:12px" data-dyn="vact" data-id="${v.id}"></p>
         ${trackerHTML(v)}
       </section>
     </div>
 
     <section class="card">
       <div class="layerlabel"><span class="n">PART 2</span><h3>Next version</h3></div>
-      <ul class="items">${v.next.map(x=>`<li><span>${x}</span></li>`).join("")}</ul>
+      <ul class="items">${v.next.map(t=>`<li><span>${t}</span></li>`).join("")}</ul>
     </section>
   </div>`;
 }
@@ -603,7 +681,7 @@ function viewRoadmap(){
     <section class="card">
       <div class="section-head"><h2>Risks</h2></div>
       <ul class="alerts">
-        <li><span class="pill bad">High</span><div><b>Burnout.</b> My week is already overbooked, and law is known for long hours. Response: build health into Freedom, protect sleep, schedule workouts, and hold a weekly review.</div></li>
+        <li><span class="pill bad">High</span><div><b>Burnout.</b> My week is already full, and law is known for long hours. Response: build health into Freedom, protect sleep, schedule workouts, and hold a weekly review.</div></li>
         <li><span class="pill warn">Medium</span><div><b>Freedom gets squeezed.</b> Response: weigh flexibility when choosing between AI policy, in-house, and firm roles.</div></li>
         <li><span class="pill warn">Medium</span><div><b>Law school doesn't go as planned.</b> Response: I still need to decide on a backup path.</div></li>
       </ul>
@@ -662,6 +740,7 @@ function viewReflection(){
   </div>`;
 }
 
+
 /* ---------------- ROUTING & EVENTS ---------------- */
 const VALID = TABS.filter(t=>!t.sep).map(t=>t.id);
 function currentRoute(){ const h=location.hash.replace("#",""); return VALID.includes(h)?h:"overview"; }
@@ -670,43 +749,54 @@ function render(){
   renderTabs(r);
   const v = VALUES.find(x=>x.id===r);
   document.getElementById("view").innerHTML = r==="overview"?viewOverview(): r==="roadmap"?viewRoadmap(): r==="reflection"?viewReflection(): viewValue(v);
+  refreshDynamic();
   const tb=document.getElementById("tab-"+r); if(tb && tb.scrollIntoView) tb.scrollIntoView({block:"nearest",inline:"nearest"});
 }
 function refreshLive(){
-  const r=currentRoute();
   const a=document.activeElement;
-  if(a && a.tagName==="INPUT") return; // don't disturb typing
-  if(r==="overview" || VALUES.some(v=>v.id===r)){ const y=window.scrollY; render(); window.scrollTo(0,y); }
+  if(a && a.tagName==="INPUT") { refreshDynamic(); return; } // don't disturb typing
+  const y=window.scrollY; render(); window.scrollTo(0,y);
 }
 function go(id){ if(location.hash.replace("#","")===id){ render(); } else { location.hash=id; } window.scrollTo({top:0}); }
+function selectLayer(id){ selLayer=id; const p=document.querySelector(".pyr svg"); if(p) p.outerHTML=pyramidSVG(selLayer); const lp=document.getElementById("layerpanel"); if(lp) lp.innerHTML=layerPanel(selLayer); }
 
 document.addEventListener("click", e=>{
   const g=e.target.closest("[data-go]"); if(g){ go(g.dataset.go); return; }
-  const L=e.target.closest("[data-layer]"); if(L){ selLayer=L.dataset.layer; const p=document.querySelector(".pyr svg"); if(p) p.outerHTML=pyramidSVG(selLayer); document.getElementById("layerpanel").innerHTML=layerPanel(selLayer); return; }
+  const L=e.target.closest("[data-layer]"); if(L){ selectLayer(L.dataset.layer); return; }
   const wk=e.target.closest("[data-week]"); if(wk){ const n=+wk.dataset.week; curWeek = n===0?weekKey(new Date()):shiftWeek(curWeek,n); const y=window.scrollY; render(); window.scrollTo(0,y); return; }
+  const rs=e.target.closest("[data-reset]"); if(rs){ store.weeks[curWeek]=store.weeks[curWeek]||{}; store.weeks[curWeek].calendar={...BASELINE_CAL}; scheduleSave(); const y=window.scrollY; render(); window.scrollTo(0,y); return; }
 });
 document.addEventListener("keydown", e=>{
   const L=e.target.closest && e.target.closest("[data-layer]");
-  if(L && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); selLayer=L.dataset.layer; const p=document.querySelector(".pyr svg"); if(p) p.outerHTML=pyramidSVG(selLayer); document.getElementById("layerpanel").innerHTML=layerPanel(selLayer); const n=document.querySelector(`[data-layer="${selLayer}"]`); if(n) n.focus(); }
+  if(L && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); selectLayer(L.dataset.layer); const n=document.querySelector(`[data-layer="${selLayer}"]`); if(n) n.focus(); }
 });
 function onField(e){
   const el=e.target;
-  if(el.dataset.goal){ const n=parseFloat(el.value); if(!isNaN(n)&&n>0){ store.targets[el.dataset.goal]=n; scheduleSave(); updateScores(); } return; }
+  if(el.dataset.goal){ const n=parseFloat(el.value); if(!isNaN(n)&&n>0){ store.targets[el.dataset.goal]=n; scheduleSave(); refreshDynamic(); } return; }
+  if(el.dataset.cal){
+    const cal=ensureCal(curWeek); const n=parseFloat(el.value);
+    cal[el.dataset.k] = (el.value===""||isNaN(n)) ? 0 : Math.max(0,n);
+    scheduleSave(); refreshDynamic(); return;
+  }
   if(!el.dataset.v) return;
   const vid=el.dataset.v, k=el.dataset.k;
   store.weeks[curWeek] = store.weeks[curWeek]||{};
   store.weeks[curWeek][vid] = store.weeks[curWeek][vid]||{};
   if(el.type==="checkbox") store.weeks[curWeek][vid][k]=el.checked;
   else { const n=parseFloat(el.value); if(el.value===""||isNaN(n)) delete store.weeks[curWeek][vid][k]; else store.weeks[curWeek][vid][k]=Math.max(0,n); }
-  scheduleSave(); updateScores();
+  scheduleSave(); refreshDynamic();
 }
 function updateScores(){
+  const x = ctxFor(curWeek);
   VALUES.forEach(v=>{
     const out=document.getElementById("vs-"+v.id); if(!out) return;
-    const w=(store.weeks[curWeek]||{})[v.id]||{}; const s=valueScore(v.id,w,store.targets);
-    out.textContent = s==null?"–":s+"%";
-    FIELDS[v.id].forEach(f=>{ if(!f.goal) return; const bar=document.getElementById(`p-${v.id}-${f.k}`); if(!bar) return; const val=w[f.k]; const T=store.targets[f.goal];
-      bar.style.width = (val==null?0:(f.cap?(val<=T?100:Math.round(T/val*100)):Math.round(clamp1(val/T)*100)))+"%"; });
+    const s=valueScore(v.id,curWeek); out.textContent = s==null?"–":s+"%";
+    FIELDS[v.id].forEach(f0=>{
+      const f={...f0, v:v.id};
+      if(f.t==="total"){ const t=document.getElementById("t-"+v.id); if(t) t.textContent=fmt(fieldVal(f,curWeek,x)); }
+      if(!f.goal) return; const bar=document.getElementById(`p-${v.id}-${f.k}`); if(!bar) return;
+      bar.style.width = Math.round((fieldProg(f, fieldVal(f,curWeek,x))||0)*100)+"%";
+    });
   });
 }
 document.addEventListener("input", onField);
