@@ -270,25 +270,31 @@ const VALUES = [
   layer:{res:"Italian, EMT, tech skills, love of strategy", org:"Weekends; exercise only if time is left"}
  },
  {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:25,
-  quote:"When you're able to learn, you're able to become better, to become something new. It gives you purpose to keep moving forward.",
-  why:["Staying stagnant is one of the things that frustrates me most.","I've always wanted to move toward my goals fast: I took an EMT class at 17 so I wouldn't stand still.","I want to be an attorney who helps regulate and govern how AI changes the world."],
+  quote:"Being able to learn and become better is what makes us human. It gives us a reason to keep moving forward.",
+  why:["Ultimately, I believe the purpose of life is to be tested, to learn, and to grow, and especially to become more Christlike. That takes spending time on things that actually help us grow. Without growth, we'd stay in the same place forever and never change or make a difference in the world.",
+   "When I grow, I can help other people grow too. Growth carries into every other part of my life: I grow with my wife, more knowledge gives me more freedom to do more things, and I grow spiritually.",
+   "Staying stagnant frustrates me more than almost anything. It's why I took an EMT class at 17: I didn't want to stand still.",
+   "I want to be an attorney who helps regulate and govern how AI changes the world."],
   resources:[
-   {t:"Information Systems degree at BYU (SQL, Excel, Python, systems thinking)", r:"Common"},
-   {t:"Legal team experience at Podium, an AI company, while still in school", r:"Rare"},
-   {t:"Privacy work at the CES privacy office and time working at my dad's personal injury firm", r:"Rare"},
-   {t:"The combination: someone who understands both the technology and the law behind it", r:"Very rare"},
-   {t:"Reputation for being reliable and always there for people. Built over years, so it can't be bought or copied quickly", r:"Very rare"},
-   {t:"LSAT taken, law school applications in progress", r:"Common"},
-   {t:"Capability: I learn new things fast, plan logistics, and solve technical problems", r:"Rare"}],
-  orgNow:"I go to work, and everything after that is hitting deadlines. The week runs on due dates, not a plan.",
-  orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication","Write tasks down the day I take them on, so procrastination doesn't cost me my reputation for reliability"],
-  activities:x=>`About ${fmt(x.H.growth)} hours this week: ${fmt(x.n("work"))} at work, ${fmt(x.n("class"))} on class and homework, ${fmt(x.n("law"))} on law school.`,
+   {t:"An undergraduate degree in Information Systems at BYU, with skills in SQL, Python, and different AI tools", r:"Common"},
+   {t:"Legal team experience at Podium, an AI software company, gaining real legal knowledge and professional experience while still in school", r:"Rare"},
+   {t:"Privacy and legal work at the CES privacy office and at my dad's law firm", r:"Rare"},
+   {t:"Taking the LSAT and applying to law schools, which trained me to think the way the law requires", r:"Common"},
+   {t:"The combination: someone who understands both technology and the law behind it", r:"Very rare"}],
+  orgNow:"Right now I'm investing heavily in my growth. I spend a lot of time at work gaining professional experience, plus time in school and studying.",
+  orgNext:["Time blocking: work is a fixed 30 hours, but schoolwork gets blurry when I procrastinate. An assignment that should take an hour turns into two when I put it off or take breaks, so I'll set specific blocks for specific assignments.","Prioritize: spend the most time on what helps me grow the most, like my professional career, and make sure my time goes to things that actually matter."],
+  activities:x=>`About ${fmt(x.H.growth)} hours this week on growth:`,
+  activityList:x=>[`Working ${fmt(x.n("work"))} hours as a legal operations associate at Podium`,`${fmt(x.n("class"))} hours on class and homework`,`${fmt(x.n("law"))} hours on LSAT study and law school prep`],
   alert:x=> x.lvl.growth==="good" ? `Growth takes about ${x.pct.growth}% of my time, close to its ${x.P.growth} points.`
         : x.d.growth>0 ? `Growth is worth ${x.P.growth} points but takes about ${x.pct.growth}% of my time. Most of that is an investment in my future. Once I've grown enough, I expect those hours to shift toward my other values, but right now growth takes the biggest share.`
         : `Growth gets about ${x.pct.growth}% of my time, less than its ${x.P.growth} points.`,
   evidence:null,
-  next:["6 months: about to start law school","1 year: in law school, looking for a summer internship","3 years: graduated with a job, focused on technology and AI law"],
-  layer:{res:"IS + law + AI industry (very rare combo)", org:"Deadline-driven"}
+  next:[
+   {k:"Now", items:["I'm prioritizing my future and putting a lot of time into growth: work, school, and law school prep"]},
+   {k:"Next year", items:["Graduate from BYU and start law school","Better prioritize my growth with time blocking, putting the most time into what matters most"]},
+   {k:"Law school", items:["Focus fully on understanding the law. I won't be working during law school, so I can manage my time around learning","Look for a summer internship in technology or AI law"]},
+   {k:"Long term", items:["Build a career where technology and law meet, helping govern how AI changes the world"]}],
+  layer:{res:"IS + law + AI industry (very rare combo)", org:"Heavy investment; needs time blocking"}
  },
  {id:"faith", name:"Faith", sub:"Spiritual life", rank:4, pts:20,
   quote:"You have no clue what's going to happen next in life. Relying on your faith is very important to being happy and successful.",
@@ -346,7 +352,7 @@ const DEFAULT_TARGETS = {love:25, freedom:10, exHours:3.5, healthStr:2, sleepWee
 const FIELDS = {
  love:[{k:"wife",cal:1,label:"Hours with my wife",goal:"love"},{k:"date",t:"check",label:"Had a date night this week"}],
  freedom:[{k:"fun",cal:1,label:"Hours of fun or side quests",goal:"freedom"},{k:"exercise",cal:1,label:"Exercise hours",goal:"exHours",step:0.25},{k:"sleep",cal:1,label:"Sleep hours this week",goal:"sleepWeek"},{k:"quest",t:"check",label:"Did something new this week"}],
- growth:[{k:"work",cal:1,label:"Work hours"},{k:"class",cal:1,label:"Class + homework hours"},{k:"law",cal:1,label:"Law school hours"},{k:"_total",t:"total",keys:["work","class","law"],label:"Total growth hours",goal:"growthCap",cap:true},{k:"reps",label:"Writing or speaking practice sessions",goal:"growthReps",step:1}],
+ growth:[{k:"work",cal:1,label:"Work hours"},{k:"class",cal:1,label:"Class + homework hours"},{k:"law",cal:1,label:"Law school hours"},{k:"_total",t:"total",keys:["work","class","law"],label:"Total growth hours",goal:"growthCap",cap:true}],
  faith:[{k:"church",cal:1,label:"Church hours"},{k:"spiritual",cal:1,label:"Spiritual study hours"},{k:"_total",t:"total",keys:["church","spiritual"],label:"Total faith hours",goal:"faith"},{k:"days",label:"Days with personal study",goal:"faithDays",max:7,step:1}]
 };
 let store = {targets:{...DEFAULT_TARGETS}, weeks:{}};
@@ -505,7 +511,9 @@ const DYN = {
   vpill(id){ const x=ctxFor(curWeek); const l=x.lvl[id]; return `<span class="pill ${l}">${pillWord(l)}</span>`; },
   vbig(id){ const x=ctxFor(curWeek); return lifeBars(VALUES.find(v=>v.id===id), x, true); },
   vgap(id){ const x=ctxFor(curWeek); return `<b>The gap:</b> ${VALUES.find(v=>v.id===id).alert(x)}`; },
-  vact(id){ const x=ctxFor(curWeek); return VALUES.find(v=>v.id===id).activities(x); },
+  vact(id){ const x=ctxFor(curWeek); const v=VALUES.find(v=>v.id===id);
+    const list = typeof v.activityList==="function" ? v.activityList(x) : v.activityList;
+    return `<p style="font-size:14.5px;margin-bottom:${list?6:12}px">${v.activities(x)}</p>${list?`<ul class="actlist">${list.map(t=>`<li>${t}</li>`).join("")}</ul>`:""}`; },
   layer(){ return layerPanel(selLayer); }
 };
 function refreshDynamic(){
@@ -659,8 +667,7 @@ function viewValue(v){
       </section>
       <section class="card">
         <div class="layerlabel"><span class="n">LAYER 4</span><h3>Activities</h3></div>
-        <p style="font-size:14.5px;margin-bottom:${v.activityList?6:12}px" data-dyn="vact" data-id="${v.id}"></p>
-        ${v.activityList?`<ul class="actlist">${v.activityList.map(t=>`<li>${t}</li>`).join("")}</ul>`:""}
+        <div data-dyn="vact" data-id="${v.id}"></div>
         ${trackerHTML(v)}
       </section>
     </div>
@@ -717,8 +724,7 @@ function viewReflection(){
         <li>I changed my priorities after seeing my real week. My first split was love 30, faith 30, freedom 10, growth 10, character 10. It only added to 90, and it didn't match my own ranking, since I listed faith fourth but gave it 30 points. My final split is love 30, freedom 25, growth 25, faith 20, which matches my ranking and is more honest about how much growth matters to me.</li>
         <li>Health was hiding in plain sight. It wasn't in my top five, but it was my answer to "biggest tension" and "where my calendar contradicts my values." I put it inside Freedom, because being healthy is what keeps me free to adventure, and burnout is the opposite of freedom.</li>
         <li>Freedom is only half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, and the career I'm choosing is known for long hours that threaten both.</li>
-        <li>I started with five values and cut Character. Honesty and integrity still matter to me, but they turned out to be <em>how</em> I live the other four, not a separate place my time goes. So I moved those ideas into Love (how I treat people) and Growth (my reputation for reliability).</li>
-        <li>My most valuable resource might be my reputation for reliability, and my biggest threat to it is procrastination.</li>
+        <li>I started with five values and cut Character. Honesty and integrity still matter to me, but they turned out to be <em>how</em> I live the other four, not a separate place my time goes. So I moved those ideas into Love, as part of how I treat people.</li>
       </ul>
     </section>
     <div class="grid2">
