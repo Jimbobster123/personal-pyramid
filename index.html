@@ -214,19 +214,24 @@ const fmt = n => String(Math.round((+n||0)*10)/10);
 const VALUES = [
  {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:30,
   quote:"Love is the most powerful thing there is. Without family and marriage, life gets a lot harder.",
-  why:["My first value covers both my marriage and the family I want to build.","At 40 I want a strong family unit and kids I've taught to live happily and do good in the world.","Failure for me would be forgetting the importance of family and living life as a means to an end.","Love also shapes how I treat people: I can't stand lying for personal gain or throwing others under the bus. When values clash, I weigh the greater good, like giving up an hour if it makes a family's life 20 times easier, while still taking care of myself."],
+  why:["For me, Love means my family and my marriage. Those matter more to me than anything else.",
+   "They're the one thing in life I can rely on no matter what. However hard life gets, and whatever trials I go through, I know I'll always have my wife, my family, and the love around me to get me through it.",
+   "Growing the love between my wife and me every day is one of the most important things I do. We're eternally sealed to each other, and the way we become more connected is by taking the time to express our love and serve each other.",
+   "At 40, success means a strong family and kids I've taught to live happily and do good in the world. Failure would be forgetting about family and living life as a means to an end."],
   resources:[
-   {t:"A marriage with a real decision process: we both share what we want, make sure we're both heard, then find the compromise that's best for both of us", r:"Rare"},
-   {t:"Being the consistent person friends come to for emotional support", r:"Rare"},
+   {t:"My wife, and a marriage with real emotional and physical connection", r:"Rare"},
+   {t:"We understand each other and both feel heard: we each share what we want, then find the compromise that's best for both of us", r:"Rare"},
+   {t:"A family I stay connected to: I communicate with them and make sure they know I'm there for them, and that they're there for me", r:"Common"},
    {t:"Family I can learn from: my dad (an attorney) and my father-in-law (a CPA)", r:"Rare"},
-   {t:"A calm, analytical temperament that keeps conflict small", r:"Common"}],
-  orgNow:"Time with my wife fits around work, class, and deadlines. Nothing on the calendar protects it.",
-  orgNext:["One protected date night every week, scheduled like a class","A shared calendar so we plan the week together","Phone-away evenings"],
+   {t:"Being the consistent person friends and family come to for emotional support", r:"Rare"},
+   {t:"Honesty people can trust: I don't lie for my own gain or throw anyone under the bus", r:"Rare"}],
+  orgNow:"We both work and go to school, so time together fits around work, class, and deadlines. Nothing on the calendar protects it yet.",
+  orgNext:["A protected date night every Friday (or at least once a week) where we go out, talk, and do something fun together","A shared calendar where we plan our weeks together, so quality time is built in instead of left over","Phone-away evenings: no phones from 10 p.m. until we fall asleep, just the two of us","Combine some of my Freedom time with my wife, so the things I do for fun are also time together"],
   activities:x=>`About ${fmt(x.n("wife"))} hours this week with my wife, mostly evenings and weekends.`,
   alert:x=> x.lvl.love==="good" ? `Love gets about ${x.pct.love}% of my time, close to its ${x.P.love} points. Combining fun with time together is working.`
         : x.d.love<0 ? `My #1 value, Love, gets about ${x.pct.love}% of my time. I want to push that closer to ${x.P.love}%. One way is to combine some of my Freedom time with my wife, so the things I do for fun are also time together: two birds with one stone.`
         : `Love gets about ${x.pct.love}% of my time, more than its ${x.P.love} points.`,
-  evidence:{text:"Couples who set aside time just for each other at least once a week report higher relationship quality and lower divorce rates (National Marriage Project).", links:[{url:"https://mrecenter.org/date-nights-matter/", label:"Date Night Opportunity summary"}]},
+  evidence:null,
   next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
   layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
  },
