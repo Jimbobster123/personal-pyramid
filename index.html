@@ -223,9 +223,9 @@ const VALUES = [
   orgNow:"Time with my wife fits around work, class, and deadlines. Nothing on the calendar protects it.",
   orgNext:["One protected date night every week, scheduled like a class","A shared calendar so we plan the week together","Phone-away evenings"],
   activities:x=>`About ${fmt(x.n("wife"))} hours this week with my wife, mostly evenings and weekends.`,
-  alert:x=> x.lvl.love==="good" ? `Lined up: ${x.P.love} points and about ${x.pct.love}% of my waking hours with my wife.`
-        : x.d.love<0 ? `My #1 value (${x.P.love} points) gets about ${x.pct.love}% of my waking hours.`
-        : `Love gets about ${x.pct.love}% of my waking hours, more than its ${x.P.love} points.`,
+  alert:x=> x.lvl.love==="good" ? `Love gets about ${x.pct.love}% of my time, close to its ${x.P.love} points. Combining fun with time together is working.`
+        : x.d.love<0 ? `My #1 value, Love, gets about ${x.pct.love}% of my time. I want to push that closer to ${x.P.love}%. One way is to combine some of my Freedom time with my wife, so the things I do for fun are also time together: two birds with one stone.`
+        : `Love gets about ${x.pct.love}% of my time, more than its ${x.P.love} points.`,
   evidence:{text:"Couples who set aside time just for each other at least once a week report higher relationship quality and lower divorce rates (National Marriage Project).", links:[{url:"https://mrecenter.org/date-nights-matter/", label:"Date Night Opportunity summary"}]},
   next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
   layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
@@ -243,10 +243,9 @@ const VALUES = [
   orgNow:"I save weekends for something fun when I can. Exercise happens only if there's time left over, which is rarely.",
   orgNext:["Keep one weekend block every week for a side quest","Schedule workouts like meetings: three runs and two strength sessions","Protect sleep before adding new commitments","Choose a legal path that protects flexibility, not just pay"],
   activities:x=>`About ${fmt(x.n("fun"))} hours of fun this week, mostly on weekends, and ${fmt(x.n("exercise"))} hours of running or gym.`,
-  alert:x=>{ const ex=x.n("exercise"); const exT=`${fmt(ex)} hours of exercise${ex<2.5?", below the CDC minimum":""}`;
-    return x.lvl.freedom==="good" ? `Lined up: about ${x.pct.freedom}% of my waking hours for ${x.P.freedom} points, with ${exT}.`
-      : x.d.freedom<0 ? `About ${fmt(x.n("fun"))} hours of fun and ${exT}. Together that's about ${x.pct.freedom}% of my waking hours for a value worth ${x.P.freedom} points, and law's long hours put both at risk.`
-      : `Freedom gets about ${x.pct.freedom}% of my waking hours, more than its ${x.P.freedom} points, with ${exT}.`; },
+  alert:x=> x.lvl.freedom==="good" ? `Freedom gets about ${x.pct.freedom}% of my time, close to its ${x.P.freedom} points.`
+        : x.d.freedom<0 ? `Freedom is low right now: about ${x.pct.freedom}% of my time for ${x.P.freedom} points. With work and school at this stage of my life, it's hard to find time for the things I actually enjoy.`
+        : `Freedom gets about ${x.pct.freedom}% of my time, more than its ${x.P.freedom} points.`,
   evidence:{text:"The CDC recommends 150 minutes of moderate activity or 75 minutes of vigorous activity a week, plus 2 days of strength training. Attorneys averaged 48 hours of work a week in 2024 and 51.7 in late 2025 (Bloomberg Law), and the 2025-2026 ABA well-being study tied longer hours to higher risk of burnout, anxiety, and depression.", links:[{url:"https://www.cdc.gov/physicalactivity/basics/adults/", label:"CDC guidelines"},{url:"https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar", label:"Bloomberg Law survey"},{url:"https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/", label:"ABA study"}]},
   next:["Hit 150 minutes of exercise and 2 strength days every week","Train for my first marathon in early 2027","Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
   layer:{res:"Portable skill set, EMT training", org:"Weekends; exercise only if time is left"}
@@ -265,9 +264,9 @@ const VALUES = [
   orgNow:"I go to work, and everything after that is hitting deadlines. The week runs on due dates, not a plan.",
   orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication","Write tasks down the day I take them on, so procrastination doesn't cost me my reputation for reliability"],
   activities:x=>`About ${fmt(x.H.growth)} hours this week: ${fmt(x.n("work"))} at work, ${fmt(x.n("class"))} on class and homework, ${fmt(x.n("law"))} on law school.`,
-  alert:x=> x.lvl.growth==="good" ? `Lined up: Growth takes about ${x.pct.growth}% of my waking hours for ${x.P.growth} points.`
-        : x.d.growth>0 ? `Growth has ${x.P.growth} points but takes about ${x.pct.growth}% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car.`
-        : `Growth gets about ${x.pct.growth}% of my waking hours, less than its ${x.P.growth} points.`,
+  alert:x=> x.lvl.growth==="good" ? `Growth takes about ${x.pct.growth}% of my time, close to its ${x.P.growth} points.`
+        : x.d.growth>0 ? `Growth is worth ${x.P.growth} points but takes about ${x.pct.growth}% of my time. Most of that is an investment in my future. Once I've grown enough, I expect those hours to shift toward my other values, but right now growth takes the biggest share.`
+        : `Growth gets about ${x.pct.growth}% of my time, less than its ${x.P.growth} points.`,
   evidence:null,
   next:["6 months: about to start law school","1 year: in law school, looking for a summer internship","3 years: graduated with a job, focused on technology and AI law"],
   layer:{res:"IS + law + AI industry (very rare combo)", org:"Deadline-driven"}
@@ -282,9 +281,9 @@ const VALUES = [
   orgNow:"Sunday church, plus spiritual thoughts when they fit into the day.",
   orgNext:["A daily anchor: personal study at the same time every day","Track days practiced, not just hours, since faith shows up in consistency"],
   activities:x=>`About ${fmt(x.H.faith)} hours this week: ${fmt(x.n("church"))} at church and ${fmt(x.n("spiritual"))} of spiritual study and thoughts.`,
-  alert:x=> x.lvl.faith==="good" ? `Lined up: about ${x.pct.faith}% of my waking hours for ${x.P.faith} points.`
-        : x.d.faith<0 ? `Faith has ${x.P.faith} priority points but gets about ${x.pct.faith}% of my waking hours. I said it myself: it should be more.`
-        : `Faith gets about ${x.pct.faith}% of my waking hours, more than its ${x.P.faith} points.`,
+  alert:x=> x.lvl.faith==="good" ? `Faith gets about ${x.pct.faith}% of my time, close to its ${x.P.faith} points.`
+        : x.d.faith<0 ? `Faith has ${x.P.faith} points but gets about ${x.pct.faith}% of my time. I'd love to do more of this.`
+        : `Faith gets about ${x.pct.faith}% of my time, more than its ${x.P.faith} points.`,
   evidence:null,
   next:["Grow from about 7 to 10 hours a week","Personal study most days of the week"],
   layer:{res:"Mission in Milan: can do hard things", org:"Sunday + when it fits"}
@@ -441,16 +440,16 @@ async function initStore(){
 
 /* ---------------- RENDER HELPERS ---------------- */
 function rarityChip(r){ const cls = r==="Very rare"?"vrare":r==="Rare"?"rare":""; return `<span class="chip ${cls}">${r}</span>`; }
-const pillWord = (lvl, long) => lvl==="bad" ? (long?"Misaligned":"Gap") : lvl==="warn" ? "Watch" : "Aligned";
+const pillWord = (lvl) => lvl==="bad" ? "Big gap" : lvl==="warn" ? "Small gap" : "Aligned";
 function lifeBars(v, x, big){
   const imp = v.pts, time = x.pct[v.id];
   if(big){
     return `<div class="bars biglife">
-      <div class="barrow"><span class="lab">My priority</span><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${imp} pts</span></div>
+      <div class="barrow"><span class="lab">My priority</span><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${imp}%</span></div>
       <div class="barrow"><span class="lab">My time</span><div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${time}%</span></div></div>`;
   }
   return `<div class="bars">
-    <div class="barrow"><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab">priority ${imp} pts</span></div>
+    <div class="barrow"><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab">priority ${imp}%</span></div>
     <div class="barrow"><div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab">time ${time}%</span></div></div>`;
 }
 function weekNav(){
@@ -471,14 +470,11 @@ const DYN = {
   caltotal(){ const x=ctxFor(curWeek); const t=x.total;
     const status = Math.abs(t-168)<0.01 ? `<b>All 168 hours accounted for.</b>` : t<168 ? `<b>${fmt(168-t)} hours unscheduled.</b>` : `<b class="overtxt">Over by ${fmt(t-168)} hours.</b> That's more than a week holds.`;
     return `<span class="num">${fmt(t)} of 168 h</span> · ${status} Growth takes ${fmt(x.H.growth)} of my ${fmt(x.waking)} waking hours; exercise takes ${fmt(x.n("exercise"))}.`; },
-  lifelines(){ const x=ctxFor(curWeek); return VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,x,false)}</div>`).join("")
-    + `<p class="note">Priority = my 100-point split (${VALUES.map(v=>v.name.toLowerCase()+" "+v.pts).join(", ")}). Time = share of my ${fmt(x.waking)} waking hours this week. Freedom includes health.</p>`; },
+  lifelines(){ const x=ctxFor(curWeek); return VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,x,false)}</div>`).join("") },
   alerts(){ const x=ctxFor(curWeek);
     const list = [];
     if(x.total>168.01) list.push({lvl:"bad", h:"My week doesn't fit in a week", t:`I logged ${fmt(x.total)} hours in a 168-hour week.`});
     VALUES.forEach(v=>list.push({lvl:x.lvl[v.id], h:v.name, t:v.alert(x)}));
-    list.push({lvl:"warn", h:"Organization", t:"My week is run by deadlines instead of a system. This dashboard is my first attempt at fixing that layer."});
-    list.push({lvl:"warn", h:"Reliability", t:"Procrastination is the biggest threat to my reliability, and reliability is one of my most valuable resources."});
     const order={bad:0,warn:1,good:2}; list.sort((a,b)=>order[a.lvl]-order[b.lvl]);
     return `<ul class="alerts">${list.map(a=>`<li><span class="pill ${a.lvl}">${pillWord(a.lvl)}</span><div><b>${a.h}.</b> ${a.t}</div></li>`).join("")}</ul>`; },
   history(){ const rows = Object.keys(store.weeks).sort().reverse().map(k=>{
@@ -486,7 +482,7 @@ const DYN = {
       return `<tr><td>${weekLabel(k)}</td><td>${s==null?"–":s+"%"}</td><td>${a==null?"–":a}</td></tr>`; }).join("");
     return rows ? `<div class="tablewrap"><table class="hist"><thead><tr><th>Week of</th><th>On-track</th><th>Alignment</th></tr></thead><tbody>${rows}</tbody></table></div>`
       : `<p class="muted" style="font-size:14px">No weeks logged yet. Change any hours above or fill in a value tab's tracker, and each week's on-track score and alignment will show up here.</p>`; },
-  vpill(id){ const x=ctxFor(curWeek); const l=x.lvl[id]; return `<span class="pill ${l}">${pillWord(l,true)}</span>`; },
+  vpill(id){ const x=ctxFor(curWeek); const l=x.lvl[id]; return `<span class="pill ${l}">${pillWord(l)}</span>`; },
   vbig(id){ const x=ctxFor(curWeek); return lifeBars(VALUES.find(v=>v.id===id), x, true); },
   vgap(id){ const x=ctxFor(curWeek); return `<b>The gap:</b> ${VALUES.find(v=>v.id===id).alert(x)}`; },
   vact(id){ const x=ctxFor(curWeek); return VALUES.find(v=>v.id===id).activities(x); },
@@ -570,7 +566,7 @@ function viewOverview(){
 
     <div class="grid2">
       <section class="card">
-        <div class="section-head"><h2>Lifelines</h2><span class="muted" style="font-size:13px">Priority vs. time</span></div>
+        <div class="section-head"><h2>Lifelines</h2><span class="muted" style="font-size:13px">Priority vs. % of awake time</span></div>
         <div data-dyn="lifelines"></div>
       </section>
       <section class="card">
