@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Jimmy's Personal Pyramid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm column of cards under a tab bar; the pyramid is the hero, each value is a tab built from the same four layers. */
+:root{
+  --bg:#F5F6F8; --surface:#FFFFFF; --ink:#14171C; --muted:#5A6170; --line:#E0E3E9; --soft:#EEF0F4;
+  --accent:#27408B;
+  --c-love:#B23A5E; --c-freedom:#2C77B0; --c-growth:#A86E14; --c-faith:#6A4EB0; --c-character:#2E7A68; --c-health:#4A8530;
+  --good:#2E7A4C; --warn:#A86E14; --bad:#B0302A;
+  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1115; --surface:#161A20; --ink:#E7E9ED; --muted:#9AA1AD; --line:#272C34; --soft:#1D2229;
+  --accent:#93A9EE;
+  --c-love:#E9809F; --c-freedom:#71B1E2; --c-growth:#E0A548; --c-faith:#AE97EC; --c-character:#6FC2AC; --c-health:#8CC46C;
+  --good:#6CC28E; --warn:#E0A548; --bad:#F07F78; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E1115; --surface:#161A20; --ink:#E7E9ED; --muted:#9AA1AD; --line:#272C34; --soft:#1D2229;
+  --accent:#93A9EE;
+  --c-love:#E9809F; --c-freedom:#71B1E2; --c-growth:#E0A548; --c-faith:#AE97EC; --c-character:#6FC2AC; --c-health:#8CC46C;
+  --good:#6CC28E; --warn:#E0A548; --bad:#F07F78; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:-0.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1}
+h2{font-size:22px;line-height:1.2}
+h3{font-size:16px;font-family:var(--f-body);font-weight:600;letter-spacing:0}
+p{margin:0}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px;margin-bottom:20px}
+header.top .lede{max-width:56ch;color:var(--muted);margin-top:8px}
+.savepill{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-bottom:24px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
+.tabrow{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabrow::-webkit-scrollbar{display:none}
+.tab{appearance:none;border:0;background:none;color:var(--muted);font:500 14px var(--f-body);padding:12px 12px 11px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:4px}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.tabsep{width:1px;background:var(--line);margin:10px 6px;flex:none}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px}
+@media (max-width:760px){.grid2,.grid-hero{grid-template-columns:minmax(0,1fr)}}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+
+/* pyramid */
+.pyr svg{width:100%;max-width:420px;display:block;margin:0 auto}
+.pyr .layer{cursor:pointer;transition:opacity .15s}
+.pyr .layer path{stroke:var(--surface);stroke-width:2}
+.pyr text{font-family:var(--f-body);font-weight:600;fill:var(--ink);pointer-events:none}
+.pyr .layer:focus-visible{outline:none}
+.pyr .layer:focus-visible path{stroke:var(--accent);stroke-width:3}
+.layerpanel{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+.layerpanel ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.layerpanel li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;font-size:14px}
+.layerpanel li b{font-weight:600;display:flex;align-items:center;gap:7px}
+
+/* score */
+.score{display:flex;align-items:baseline;gap:8px}
+.score .big{font-family:var(--f-display);font-size:64px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.meter{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;margin:12px 0 8px}
+.meter i{display:block;height:100%;background:var(--warn);border-radius:4px}
+.thesis{font-family:var(--f-display);font-size:19px;line-height:1.35;font-weight:600}
+.draft{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--muted);vertical-align:2px}
+
+/* week bar */
+.weekbar{position:relative;margin:26px 0 10px}
+.weekbar .track{display:flex;height:30px;border-radius:6px;overflow:hidden;width:calc(100% * 168 / 171 * 171 / 168)}
+.weekbar .seg{height:100%;min-width:2px}
+.weekbar .limit{position:absolute;top:-22px;bottom:-6px;border-left:2px dashed var(--bad)}
+.weekbar .limit span{position:absolute;top:0;left:6px;font-family:var(--f-mono);font-size:11px;color:var(--bad);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+/* lifelines */
+.life{display:grid;grid-template-columns:118px minmax(0,1fr);gap:6px 14px;align-items:center}
+.life + .life{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.life .name{font-weight:600;display:flex;align-items:center;gap:8px;background:none;border:0;padding:0;color:var(--ink);font:600 15px var(--f-body);cursor:pointer;text-align:left}
+.life .name:hover{text-decoration:underline}
+.bars{display:flex;flex-direction:column;gap:5px}
+.barrow{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:10px;align-items:center;font-size:12.5px}
+.bar{height:10px;border-radius:5px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:5px}
+.bar.imp i{opacity:.4}
+.barrow .lab{color:var(--muted);font-family:var(--f-mono);font-size:11.5px;text-align:right;white-space:nowrap}
+.biglife .barrow{grid-template-columns:120px minmax(0,1fr) 70px}
+.biglife .bar{height:16px;border-radius:8px}
+.biglife .bar i{border-radius:8px}
+.biglife .lab{text-align:left}
+
+/* alerts */
+.alerts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.alerts li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.alerts li:first-child{border-top:0;padding-top:0}
+.pill{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;border-radius:4px;padding:2px 7px;height:fit-content;white-space:nowrap;border:1px solid currentColor}
+.pill.bad{color:var(--bad)} .pill.warn{color:var(--warn)} .pill.good{color:var(--good)}
+.alerts b{font-weight:600}
+
+/* value page */
+.vhead{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:space-between}
+.vhead .rank{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.vhead h2{font-size:clamp(30px,5vw,40px);margin-top:4px}
+blockquote{margin:14px 0 0;padding:0 0 0 14px;border-left:3px solid var(--vc);max-width:62ch;font-size:16px}
+.layerlabel{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.layerlabel .n{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+ul.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+ul.items li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+.chip{font-family:var(--f-mono);font-size:10.5px;padding:2px 7px;border-radius:4px;background:var(--soft);color:var(--muted);white-space:nowrap}
+.chip.rare{color:var(--vc);background:color-mix(in srgb, var(--vc) 12%, var(--surface))}
+.chip.vrare{color:var(--surface);background:var(--vc)}
+.nownext{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px 12px;font-size:14.5px}
+.nownext .k{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-top:3px}
+.nownext ul{margin:0;padding-left:18px}
+.note{font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:12px}
+.note a{white-space:nowrap}
+
+/* tracker */
+.tracker{border:1px solid color-mix(in srgb, var(--vc) 35%, var(--line));border-radius:10px;padding:16px;background:color-mix(in srgb, var(--vc) 4%, var(--surface))}
+.weeknav{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.weeknav button,.btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:4px 10px;font:500 13px var(--f-body);cursor:pointer}
+.weeknav button:hover,.btn:hover{border-color:var(--muted)}
+.weeknav button:focus-visible,.btn:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.fields{display:flex;flex-direction:column;gap:12px}
+.field{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center}
+.field label{font-size:14px}
+.field .ctl{display:flex;align-items:center;gap:8px}
+.field input[type=number]{width:72px;font:500 14px var(--f-mono);padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-align:right}
+.field input[type=checkbox]{width:18px;height:18px;accent-color:var(--vc)}
+.field .goal{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.field .goal input{width:54px;padding:3px 6px;font-size:12px}
+.field .prog{grid-column:1 / -1;height:5px;border-radius:3px;background:var(--soft);overflow:hidden}
+.field .prog i{display:block;height:100%;background:var(--vc)}
+.vscore{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:14px}
+.vscore .num{font-size:20px;font-weight:500}
+
+table.hist{width:100%;border-collapse:collapse;font-size:13.5px}
+table.hist th{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);text-align:right;padding:6px 8px;border-bottom:1px solid var(--line)}
+table.hist th:first-child,table.hist td:first-child{text-align:left}
+table.hist td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+
+/* roadmap */
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline li{display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;padding:0 0 18px;position:relative}
+.timeline li::before{content:"";position:absolute;left:99px;top:8px;bottom:-2px;width:1px;background:var(--line)}
+.timeline li:last-child::before{display:none}
+.timeline .when{font-family:var(--f-mono);font-size:12px;color:var(--muted);padding-top:2px;text-align:right}
+.timeline .what{padding-left:18px;position:relative}
+.timeline .what::before{content:"";position:absolute;left:-1px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--accent);transform:translateX(-50%) translateX(-5px)}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.three{grid-template-columns:minmax(0,1fr)}}
+.three ul,.prose ul{margin:8px 0 0;padding-left:18px}
+.three li,.prose li{margin:4px 0}
+.prose p + p{margin-top:10px}
+.prose{max-width:68ch}
+.sources li{font-size:13.5px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">STRAT 392 · Personal Pyramid · Jimmy Churchill</div>
+      <h1>My Personal Pyramid</h1>
+      <p class="lede">A strategy audit of my own life, built as a dashboard I can keep using. Values sit at the base, then the resources and capabilities they rest on, the way I organize my week, and the activities that actually happen.</p>
+    </div>
+    <span class="savepill" id="savepill">Baseline audit: Nov 3, 2026</span>
+  </header>
+
+  <nav class="tabs" aria-label="Sections"><div class="tabrow" id="tabrow" role="tablist"></div></nav>
+  <main id="view"></main>
+</div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const WAKING = 168 - 52.5; // 7.5 h sleep a night
+
+const VALUES = [
+ {id:"love", name:"Love", sub:"Family and marriage", rank:1, pts:30, hours:20,
+  quote:"Love is the most powerful thing there is. Without family and marriage, life gets a lot harder.",
+  why:["My first value covers both my marriage and the family I want to build.","At 40 I want a strong family unit and kids I've taught to live happily and do good in the world.","Failure for me would be forgetting the importance of family and living life as a means to an end."],
+  resources:[
+   {t:"A marriage with a real decision process: we both share what we want, make sure we're both heard, then find the compromise that's best for both of us", r:"Rare"},
+   {t:"Being the consistent person friends come to for emotional support", r:"Rare"},
+   {t:"Family I can learn from: my dad (an attorney) and my father-in-law (a CPA)", r:"Rare"},
+   {t:"A calm, analytical temperament that keeps conflict small", r:"Common"}],
+  orgNow:"Time with my wife fits around work, class, and deadlines. Nothing on the calendar protects it.",
+  orgNext:["One protected date night every week, scheduled like a class","A shared calendar so we plan the week together","Phone-away evenings"],
+  activities:"About 20 hours a week with my wife, mostly evenings and weekends.",
+  alert:{lvl:"bad", text:"My #1 value (30 points) gets about 17% of my waking hours."},
+  evidence:{text:"Couples who set aside time just for each other at least once a week report higher relationship quality and lower divorce rates (National Marriage Project).", url:"https://mrecenter.org/date-nights-matter/", label:"Date Night Opportunity summary"},
+  next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
+  layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
+ },
+ {id:"freedom", name:"Freedom", sub:"Adventure and choice", rank:2, pts:10, hours:10,
+  quote:"Everyone should have the chance to learn and figure out what they like and what they want to do.",
+  why:["Freedom is what makes growth possible: when you're free, you're able to learn.","At 40 I still want to be adventuring and enjoying the small things life offers.","I want to live somewhere with always something to do, a big city or California."],
+  resources:[
+   {t:"Portable skills that open doors: information systems, legal ops, EMT, Italian", r:"Very rare"},
+   {t:"Proven adaptability: thrived in a new country and language on my mission", r:"Rare"},
+   {t:"“Jack of all trades”: willing to try anything, learn it, and add it to my toolkit", r:"Rare"},
+   {t:"Decision maker who does his best work independently", r:"Common"}],
+  orgNow:"I save weekends for something fun when I can.",
+  orgNext:["Keep one weekend block every week for a side quest","One real trip each quarter","Choose a legal path that protects flexibility, not just pay"],
+  activities:"About 10 hours a week of fun, mostly on weekends.",
+  alert:{lvl:"good", text:"Aligned today: 10 points and about 9% of my waking hours. The risk is the future: law is known for long hours."},
+  evidence:{text:"Attorneys reported averaging 48 hours a week in 2024, and late 2025 averaged 51.7 hours, the highest since early 2021 (Bloomberg Law surveys).", url:"https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar", label:"Bloomberg Law workload survey"},
+  next:["Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
+  layer:{res:"Portable skill set (IS, legal, EMT, Italian)", org:"Weekends, when there's time"}
+ },
+ {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:10, hours:70,
+  quote:"When you're able to learn, you're able to become better, to become something new. It gives you purpose to keep moving forward.",
+  why:["Staying stagnant is one of the things that frustrates me most.","I've always wanted to move toward my goals fast: I took an EMT class at 17 so I wouldn't stand still.","I want to be an attorney who helps regulate and govern how AI changes the world."],
+  resources:[
+   {t:"Information Systems degree at BYU (SQL, Excel, Python, systems thinking)", r:"Common"},
+   {t:"Legal team experience at Podium, an AI company, while still in school", r:"Rare"},
+   {t:"Privacy work at the CES privacy office and time working at my dad's personal injury firm", r:"Rare"},
+   {t:"The combination: someone who understands both the technology and the law behind it", r:"Very rare"},
+   {t:"LSAT taken, law school applications in progress", r:"Common"},
+   {t:"Capability: I learn new things fast, plan logistics, and solve technical problems", r:"Rare"}],
+  orgNow:"I go to work, and everything after that is hitting deadlines. The week runs on due dates, not a plan.",
+  orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication"],
+  activities:"About 70 hours a week: 30 at work, 20 on class and homework, 20 on law school applications.",
+  alert:{lvl:"bad", text:"Growth has 10 points but takes about 61% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car."},
+  evidence:null,
+  next:["6 months: about to start law school","1 year: in law school, looking for a summer internship","3 years: graduated with a job, focused on technology and AI law"],
+  layer:{res:"IS + law + AI industry (very rare combo)", org:"Deadline-driven"}
+ },
+ {id:"faith", name:"Faith", sub:"Spiritual life", rank:4, pts:30, hours:7,
+  quote:"You have no clue what's going to happen next in life. Relying on your faith is very important to being happy and successful.",
+  why:["Faith is what completes us as humans, and at the end of the day it's what makes us happy.","It helps with the many things in life that can't be explained.","It drives a good amount of my priorities."],
+  resources:[
+   {t:"Two-year mission in Milan, Italy: it taught me I can do hard things and actually enjoy them", r:"Rare"},
+   {t:"A costly choice made on purpose: I worried the mission would slow my progress and chose to serve anyway", r:"Rare"},
+   {t:"A church community and shared beliefs at home", r:"Common"}],
+  orgNow:"Sunday church, plus spiritual thoughts when they fit into the day.",
+  orgNext:["A daily anchor: personal study at the same time every day","Track days practiced, not just hours, since faith shows up in consistency"],
+  activities:"About 7 hours a week: 2 at church and around 5 of spiritual thoughts and study. It should be more.",
+  alert:{lvl:"bad", text:"Faith is tied for my most important value (30 points) but gets about 6% of my waking hours. I ranked it #4 in my list but #1 in my points, which tells me I haven't fully decided where it sits."},
+  evidence:null,
+  next:["Grow from about 7 to 10 hours a week","Personal study most days of the week"],
+  layer:{res:"Mission in Milan: can do hard things", org:"Sunday + when it fits"}
+ },
+ {id:"character", name:"Character", sub:"Honesty and integrity", rank:5, pts:10, hours:null,
+  quote:"Everything else helps bring out a person's honesty and integrity and helps them become the best person possible.",
+  why:["I can't stand dishonesty, people making up stories for their own gain, or throwing others under the bus.","When values clash I weigh the greater good: an hour of my day is worth it if it makes a family's life 20 times easier.","I also believe in taking care of yourself."],
+  resources:[
+   {t:"Reputation: reliable, always there for people, does the right thing. Built over years, so it can't be bought or copied quickly", r:"Very rare"},
+   {t:"Calm under pressure, trained as an EMT at 17", r:"Rare"},
+   {t:"A clear greater-good decision rule", r:"Rare"}],
+  orgNow:"No system. I rely on instinct and showing up.",
+  orgNext:["A weekly review: commitments I made vs. commitments I kept","Write down tasks the day I take them on, so procrastination doesn't cost my reliability"],
+  activities:"Character isn't measured in hours, so I track commitments kept and tasks put off.",
+  alert:{lvl:"warn", text:"Procrastination is the biggest threat to my reliability, and reliability is my most valuable reputation asset."},
+  evidence:null,
+  next:["Become a stronger communicator and public speaker, which is how a lawyer's character shows up to others"],
+  layer:{res:"Reputation for reliability", org:"Instinct, no review"}
+ },
+ {id:"health", name:"Health", sub:"The foundation", rank:null, pts:0, hours:1.5, foundation:true,
+  quote:"I really do value health. I'd love to exercise more, but I get so bogged down by the things I'm doing for a better future that it's hard to go.",
+  why:["Health didn't make my top five, but it came up twice as my biggest tension.","My points only add up to 90. Health is the missing 10.","It isn't a sixth value. It's the ground the other five stand on: burnout is my biggest named risk."],
+  resources:[
+   {t:"EMT training: I understand the body and what happens when health fails", r:"Rare"},
+   {t:"I'm energized by exercise and activity when I actually do it", r:"Common"},
+   {t:"Sleep is holding steady at 7 to 8 hours a night", r:"Common"}],
+  orgNow:"Exercise happens if there's time left over, which is rarely.",
+  orgNext:["Schedule workouts like meetings: three runs and two strength sessions","Protect sleep before adding new commitments"],
+  activities:"About 1 to 2 hours of running or gym a week.",
+  alert:{lvl:"bad", text:"Important to me, missing from my points, and getting about 1% of my waking hours."},
+  evidence:{text:"The CDC recommends 150 minutes of moderate activity or 75 minutes of vigorous activity a week, plus 2 days of strength training. The 2025-2026 ABA lawyer well-being study found longer hours were tied to higher risk of burnout, anxiety, and depression.", url:"https://www.cdc.gov/physicalactivity/basics/adults/", label:"CDC adult activity guidelines", url2:"https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/", label2:"ABA lawyer well-being study"},
+  next:["Give health its 10 points","Hit 150 minutes and 2 strength days every week","Train for my first marathon in early 2027"],
+  layer:{res:"EMT training, steady sleep", org:"Leftover time"}
+ }
+];
+const COLOR = id => `var(--c-${id})`;
+
+const WEEK = [ // reported hours, week of Nov 3
+ {k:"Sleep", h:52.5, c:"var(--soft)", border:true},
+ {k:"Work", h:30, c:"var(--c-growth)"},
+ {k:"Class + homework", h:20, c:"color-mix(in srgb, var(--c-growth) 70%, var(--surface))"},
+ {k:"Law school apps", h:20, c:"color-mix(in srgb, var(--c-growth) 45%, var(--surface))"},
+ {k:"Wife", h:20, c:"var(--c-love)"},
+ {k:"Fun", h:10, c:"var(--c-freedom)"},
+ {k:"Commute", h:10, c:"color-mix(in srgb, var(--muted) 45%, var(--surface))"},
+ {k:"Spiritual", h:5, c:"var(--c-faith)"},
+ {k:"Church", h:2, c:"color-mix(in srgb, var(--c-faith) 60%, var(--surface))"},
+ {k:"Exercise", h:1.5, c:"var(--c-health)"}
+];
+const WEEK_TOTAL = WEEK.reduce((a,b)=>a+b.h,0); // 171
+
+const LAYERS = [
+ {id:"activities", name:"Activities", q:"What do I actually do each week?"},
+ {id:"organization", name:"Organization", q:"How is my life set up to capture the value?"},
+ {id:"resources", name:"Resources & capabilities", q:"What do I have, and how rare is it?"},
+ {id:"values", name:"Values & priorities", q:"What matters most, and how committed am I?"}
+];
+
+/* baseline alignment: importance share vs time share over the time-tracked values */
+function alignment(hoursMap, ptsMap){
+  const ids = Object.keys(hoursMap);
+  const H = ids.reduce((a,i)=>a+hoursMap[i],0), P = ids.reduce((a,i)=>a+ptsMap[i],0);
+  if(!H||!P) return null;
+  const tv = ids.reduce((a,i)=>a+Math.abs(hoursMap[i]/H - ptsMap[i]/P),0)/2;
+  return Math.round((1-tv)*100);
+}
+const BASE_H = {}, BASE_P = {};
+VALUES.filter(v=>v.hours!=null).forEach(v=>{BASE_H[v.id]=v.hours; BASE_P[v.id]=v.pts;});
+const BASE_SCORE = alignment(BASE_H, BASE_P);
+
+/* ---------------- TRACKER STATE ---------------- */
+const DEFAULT_TARGETS = {love:25, freedom:10, growthCap:65, growthReps:2, faith:10, faithDays:6, charPct:90, healthMin:150, healthStr:2, sleep:7.5};
+const FIELDS = {
+ love:[{k:"hours",label:"Quality hours with my wife",t:"num",goal:"love",unit:"h"},{k:"date",label:"Had a date night this week",t:"check"}],
+ freedom:[{k:"hours",label:"Hours of fun or side quests",t:"num",goal:"freedom",unit:"h"},{k:"quest",label:"Did something new this week",t:"check"}],
+ growth:[{k:"hours",label:"Work + class + law school hours",t:"num",goal:"growthCap",unit:"h",cap:true},{k:"reps",label:"Writing or speaking practice sessions",t:"num",goal:"growthReps",unit:"x"}],
+ faith:[{k:"hours",label:"Church + study hours",t:"num",goal:"faith",unit:"h"},{k:"days",label:"Days with personal study",t:"num",goal:"faithDays",unit:"d",max:7}],
+ character:[{k:"made",label:"Commitments I made",t:"num",unit:""},{k:"kept",label:"Commitments I kept",t:"num",unit:""},{k:"putoff",label:"Tasks I put off past the plan",t:"num",unit:""}],
+ health:[{k:"min",label:"Exercise minutes",t:"num",goal:"healthMin",unit:"m"},{k:"str",label:"Strength days",t:"num",goal:"healthStr",unit:"d",max:7},{k:"sleep",label:"Average sleep per night",t:"num",goal:"sleep",unit:"h",step:0.5}]
+};
+let store = {targets:{...DEFAULT_TARGETS}, weeks:{}};
+let mode = "none", ref = null, dirty = false, saving = Promise.resolve(), saveTimer = null;
+
+function pad(n){return String(n).padStart(2,"0")}
+function weekKey(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()); x.setDate(x.getDate()-((x.getDay()+6)%7)); return `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`;}
+function shiftWeek(k,n){const [y,m,d]=k.split("-").map(Number); const x=new Date(y,m-1,d+7*n); return weekKey(x);}
+function weekLabel(k){const [y,m,d]=k.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}
+let curWeek = weekKey(new Date());
+
+const clamp1 = x => Math.max(0, Math.min(1, x));
+function valueScore(id, w, T){
+  if(!w) return null;
+  const has = k => w[k]!==undefined && w[k]!=="" && w[k]!==null;
+  const parts = [];
+  if(id==="love"){ if(has("hours")) parts.push(clamp1(w.hours/T.love)); if(has("date")) parts.push(w.date?1:0); }
+  if(id==="freedom"){ if(has("hours")) parts.push(clamp1(w.hours/T.freedom)); if(has("quest")) parts.push(w.quest?1:0); }
+  if(id==="growth"){ if(has("hours")) parts.push(w.hours<=T.growthCap?1:clamp1(T.growthCap/w.hours)); if(has("reps")) parts.push(clamp1(w.reps/T.growthReps)); }
+  if(id==="faith"){ if(has("hours")) parts.push(clamp1(w.hours/T.faith)); if(has("days")) parts.push(clamp1(w.days/T.faithDays)); }
+  if(id==="character"){ if(has("made")&&w.made>0&&has("kept")) parts.push(clamp1((w.kept/w.made*100)/T.charPct)); }
+  if(id==="health"){ if(has("min")) parts.push(clamp1(w.min/T.healthMin)); if(has("str")) parts.push(clamp1(w.str/T.healthStr)); if(has("sleep")) parts.push(clamp1(w.sleep/T.sleep)); }
+  return parts.length ? Math.round(parts.reduce((a,b)=>a+b,0)/parts.length*100) : null;
+}
+function weekScore(k){
+  const w = store.weeks[k]; if(!w) return null;
+  const s = VALUES.map(v=>valueScore(v.id, w[v.id], store.targets)).filter(x=>x!=null);
+  return s.length ? Math.round(s.reduce((a,b)=>a+b,0)/s.length) : null;
+}
+function weekAlignment(k){
+  const w = store.weeks[k]; if(!w) return null;
+  const H={},P={}; let any=false;
+  VALUES.filter(v=>v.hours!=null).forEach(v=>{ const h=w[v.id]?.[v.id==="health"?"min":"hours"]; if(h!=null && h!==""){ any=true; H[v.id]= v.id==="health"? h/60 : +h; P[v.id]= v.id==="health"?10:v.pts; } });
+  return any && Object.keys(H).length>=3 ? alignment(H,P) : null;
+}
+
+function setPill(text){ const p=document.getElementById("savepill"); if(p) p.textContent=text; }
+function scheduleSave(){
+  dirty = true; setPill("Saving…");
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{ saving = saving.then(doSave); }, 700);
+}
+async function doSave(){
+  const body = JSON.parse(JSON.stringify(store));
+  try{
+    if(mode==="db" && ref){ await ref.set(body); setPill("Saved to your account"); }
+    else { try{ localStorage.setItem("pyramid-tracker", JSON.stringify(body)); setPill("Saved in this browser"); }catch(e){ setPill("Not saved (storage blocked)"); } }
+  }catch(e){
+    if(e && e.code==="unavailable"){ await new Promise(r=>setTimeout(r,600+Math.random()*600)); try{ await ref.set(body); setPill("Saved to your account"); }catch(_){ setPill("Couldn't save, try again later"); } }
+    else if(e && (e.code==="invalid_argument"||e.code==="not_granted")){ mode="local"; try{ localStorage.setItem("pyramid-tracker", JSON.stringify(body)); setPill("Saved in this browser"); }catch(_){ setPill("Not saved"); } }
+    else setPill("Couldn't save, try again later");
+  }
+  dirty = false;
+}
+function loadLocal(){
+  try{ const s = JSON.parse(localStorage.getItem("pyramid-tracker")||"null"); if(s&&s.weeks) store={targets:{...DEFAULT_TARGETS,...(s.targets||{})}, weeks:s.weeks}; }catch(e){}
+}
+async function initStore(){
+  try{
+    if(window.claude && typeof window.claude.use==="function"){
+      const [db,user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+      const uid = user ? await user.id() : null;
+      if(db && uid){
+        ref = db.doc("data/users/"+uid+"/tracker");
+        mode = "db";
+        const t = setTimeout(()=>setPill("Tracker data can't be reached yet"), 10000);
+        ref.onSnapshot(snap=>{
+          if(!snap.metadata.fromCache) { clearTimeout(t); }
+          if(dirty) return;
+          if(snap.exists){ const d=snap.data(); store={targets:{...DEFAULT_TARGETS,...(d.targets||{})}, weeks:JSON.parse(JSON.stringify(d.weeks||{}))}; }
+          setPill(Object.keys(store.weeks).length? "Synced to your account" : "Tracker ready");
+          refreshLive();
+        }, err=>{ clearTimeout(t); mode="local"; loadLocal(); setPill("Saving on this device"); refreshLive(); });
+        return;
+      }
+    }
+  }catch(e){}
+  mode="local"; loadLocal(); refreshLive();
+}
+
+/* ---------------- RENDER HELPERS ---------------- */
+const pct = (h) => Math.round(h/WAKING*100);
+function rarityChip(r){ const cls = r==="Very rare"?"vrare":r==="Rare"?"rare":""; return `<span class="chip ${cls}">${r}</span>`; }
+function lifeBars(v, big){
+  const imp = v.pts, time = v.hours==null?null:pct(v.hours);
+  const timeRow = time==null
+    ? `<div class="barrow"><span class="muted" style="font-size:12.5px;grid-column:1 / -1">Time: tracked by commitments kept, not hours</span></div>`
+    : `<div class="barrow">${big?'<span class="lab">My time</span>':''}<div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab">${big?'':'time '}${time}%</span></div>`;
+  const impRow = `<div class="barrow">${big?'<span class="lab">My priority</span>':''}<div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab">${big?'':'priority '}${imp?imp+' pts':'0 pts'}</span></div>`;
+  if(big){
+    const timeBig = time==null ? `<div class="barrow"><span class="lab">My time</span><span class="muted" style="font-size:13px">Tracked by commitments kept, not hours</span><span></span></div>` : `<div class="barrow"><span class="lab">My time</span><div class="bar"><i style="width:${Math.min(100,time)}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${time}%</span></div>`;
+    const impBig = `<div class="barrow"><span class="lab">My priority</span><div class="bar imp"><i style="width:${imp}%;background:${COLOR(v.id)}"></i></div><span class="lab num">${imp} pts</span></div>`;
+    return `<div class="bars biglife">${impBig}${timeBig}</div>`;
+  }
+  return `<div class="bars">${impRow}${timeRow}</div>`;
+}
+
+/* ---------------- VIEWS ---------------- */
+const TABS = [{id:"overview",name:"Overview"}, ...VALUES.map(v=>({id:v.id,name:v.name,dot:v.id})), {sep:true}, {id:"roadmap",name:"Roadmap"},{id:"reflection",name:"Reflection"}];
+function renderTabs(active){
+  document.getElementById("tabrow").innerHTML = TABS.map(t=> t.sep ? `<span class="tabsep" aria-hidden="true"></span>` :
+    `<button class="tab" role="tab" id="tab-${t.id}" aria-selected="${t.id===active}" data-go="${t.id}">${t.dot?`<span class="dot" style="background:${COLOR(t.dot)}"></span>`:""}${t.name}</button>`).join("");
+}
+
+function pyramidSVG(sel){
+  const top=12, h=60, gap=3, k=0.6, cx=210;
+  const hw = y => (y-top)*k + 6;
+  let out = `<svg viewBox="0 0 420 300" role="img" aria-label="Pyramid with four layers: activities at the top, then organization, resources and capabilities, and values at the base, resting on a health foundation">`;
+  const shades=[70,52,36,22];
+  LAYERS.forEach((L,i)=>{
+    const y1 = top + i*(h+gap), y2 = y1+h;
+    const a=hw(y1), b=hw(y2);
+    const d = `M${cx-a},${y1} L${cx+a},${y1} L${cx+b},${y2} L${cx-b},${y2} Z`;
+    const s = sel===L.id ? 88 : shades[3-i]+8;
+    const fill = `color-mix(in srgb, var(--accent) ${s}%, var(--surface))`;
+    const tc = s>55 ? "var(--surface)" : "var(--ink)";
+    const lab = i===0 ? "Activities" : L.name;
+    const fs = i===0 ? 11.5 : 13.5;
+    out += `<g class="layer" tabindex="0" role="button" aria-pressed="${sel===L.id}" data-layer="${L.id}"><path d="${d}" style="fill:${fill}"></path><text x="${cx}" y="${(y1+y2)/2+ (i===0?14:5)}" text-anchor="middle" font-size="${fs}" style="fill:${tc}">${lab}</text></g>`;
+  });
+  const yb = top + 4*(h+gap) + 4;
+  out += `<g class="layer" tabindex="0" role="button" aria-pressed="${sel==="health"}" data-layer="health"><rect x="20" y="${yb}" width="380" height="24" rx="4" style="fill:color-mix(in srgb, var(--c-health) ${sel==="health"?60:22}%, var(--surface))"></rect><text x="${cx}" y="${yb+16}" text-anchor="middle" font-size="12" style="fill:var(--ink)">Foundation: Health</text></g>`;
+  return out + `</svg>`;
+}
+function layerPanel(sel){
+  if(sel==="health"){
+    const v=VALUES.find(x=>x.id==="health");
+    return `<div class="eyebrow">Foundation</div><h3 style="margin-top:4px">Health holds up every layer</h3><p class="muted" style="margin-top:6px;font-size:14px">${v.why[2]}</p>`;
+  }
+  const L = LAYERS.find(l=>l.id===sel);
+  const rows = VALUES.filter(v=>!v.foundation).map(v=>{
+    let txt="";
+    if(sel==="values") txt = `#${v.rank} · ${v.pts} points · ${v.sub}`;
+    if(sel==="resources") txt = v.layer.res;
+    if(sel==="organization") txt = v.layer.org;
+    if(sel==="activities") txt = v.hours==null ? "Commitments kept (not hours)" : `${v.hours} h/week · ${pct(v.hours)}% of waking hours`;
+    return `<li><b><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</b><span>${txt}</span></li>`;
+  }).join("");
+  return `<div class="eyebrow">${L.name}</div><h3 style="margin-top:4px">${L.q}</h3><ul>${rows}</ul>`;
+}
+
+let selLayer = "values";
+function viewOverview(){
+  const alerts = [
+    {lvl:"bad", h:"My week doesn't fit in a week", t:`I reported ${WEEK_TOTAL} hours of commitments in a 168-hour week, before meals, chores, or my phone.`},
+    ...VALUES.map(v=>({lvl:v.alert.lvl, h:v.name, t:v.alert.text, id:v.id})),
+    {lvl:"warn", h:"Organization", t:"My week is run by deadlines instead of a system. This dashboard is my first attempt at fixing that layer."}
+  ];
+  const order={bad:0,warn:1,good:2};
+  alerts.sort((a,b)=>order[a.lvl]-order[b.lvl]);
+  const histRows = Object.keys(store.weeks).sort().reverse().map(k=>{
+    const s=weekScore(k), a=weekAlignment(k);
+    if(s==null && a==null) return "";
+    return `<tr><td>${weekLabel(k)}</td><td>${s==null?"–":s}</td><td>${a==null?"–":a}</td></tr>`;
+  }).join("");
+  return `
+  <div class="stack">
+    <div class="grid-hero">
+      <section class="card pyr">
+        <div class="section-head"><h2>The pyramid</h2><span class="muted" style="font-size:13px">Tap a layer</span></div>
+        ${pyramidSVG(selLayer)}
+        <div class="layerpanel" id="layerpanel">${layerPanel(selLayer)}</div>
+      </section>
+      <div class="stack">
+        <section class="card">
+          <div class="eyebrow">Alignment score · baseline</div>
+          <div class="score" style="margin-top:8px"><span class="big">${BASE_SCORE}</span><span class="muted">/ 100</span></div>
+          <div class="meter"><i style="width:${BASE_SCORE}%"></i></div>
+          <p style="font-size:14px">How closely my hours match my priority points. 100 would mean every value gets time in the same proportion I say it matters. Right now about half my time is out of place.</p>
+          <p class="note">Method: compare each value's share of priority points with its share of my value-related hours, add up the differences, and subtract half of that total from 100.</p>
+        </section>
+        <section class="card">
+          <div class="eyebrow">My personal competitive advantage <span class="draft">Draft</span></div>
+          <p class="thesis" style="margin-top:10px">A future attorney who actually understands the technology: I've built systems as an Information Systems student and worked on the legal team of an AI company, so I can help govern how AI changes the world.</p>
+        </section>
+      </div>
+    </div>
+
+    <section class="card">
+      <div class="section-head"><h2>If someone only looked at my calendar</h2><span class="muted num" style="font-size:13px">${WEEK_TOTAL} of 168 h</span></div>
+      <p class="muted" style="font-size:14px;max-width:70ch">The question from the Personal Pyramid slide. This is my reported week of Nov 3, 2026. The dashed line is the end of the week.</p>
+      <div class="weekbar">
+        <div class="track">${WEEK.map(s=>`<div class="seg" title="${s.k}: ${s.h} h" style="flex:${s.h} 0 0;background:${s.c};${s.border?'box-shadow:inset 0 0 0 1px var(--line)':''}"></div>`).join("")}</div>
+        <div class="limit" style="left:${168/WEEK_TOTAL*100}%"><span>168 h</span></div>
+      </div>
+      <div class="legend">${WEEK.map(s=>`<span><i style="background:${s.c};${s.border?'box-shadow:inset 0 0 0 1px var(--muted)':''}"></i>${s.k} <span class="num">${s.h}</span></span>`).join("")}</div>
+      <p class="note">Growth (work, class, law school) takes 70 of my roughly ${Math.round(WAKING)} waking hours. Exercise takes 1.5.</p>
+    </section>
+
+    <div class="grid2">
+      <section class="card">
+        <div class="section-head"><h2>Lifelines</h2><span class="muted" style="font-size:13px">Priority vs. time</span></div>
+        ${VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,false)}</div>`).join("")}
+        <p class="note">Priority = my 100-point split (family 30, faith 30, adventure 10, growth 10, character 10). Time = share of my ${Math.round(WAKING)} waking hours. The points only add to 90; health is the missing 10.</p>
+      </section>
+      <section class="card">
+        <div class="section-head"><h2>Misalignments</h2><span class="muted" style="font-size:13px">Where the layers pull apart</span></div>
+        <ul class="alerts">${alerts.map(a=>`<li><span class="pill ${a.lvl}">${a.lvl==="bad"?"Gap":a.lvl==="warn"?"Watch":"Aligned"}</span><div><b>${a.h}.</b> ${a.t}</div></li>`).join("")}</ul>
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="section-head"><h2>Weekly log</h2><span class="muted" style="font-size:13px">Log a week on any value tab</span></div>
+      ${histRows ? `<div class="tablewrap"><table class="hist"><thead><tr><th>Week of</th><th>On-track score</th><th>Alignment</th></tr></thead><tbody>${histRows}</tbody></table></div>`
+        : `<p class="muted" style="font-size:14px">No weeks logged yet. Open any value tab and fill in this week's tracker. Your on-track score and alignment will show up here week by week, so this page keeps working after the class ends.</p>`}
+    </section>
+  </div>`;
+}
+
+function trackerHTML(v){
+  const w = (store.weeks[curWeek]||{})[v.id]||{};
+  const T = store.targets;
+  const rows = FIELDS[v.id].map(f=>{
+    const id = `f-${v.id}-${f.k}`;
+    if(f.t==="check") return `<div class="field"><label for="${id}">${f.label}</label><div class="ctl"><input type="checkbox" id="${id}" data-v="${v.id}" data-k="${f.k}" ${w[f.k]?"checked":""}></div></div>`;
+    const val = w[f.k]??"";
+    const goal = f.goal ? `<span class="goal"><label for="g-${v.id}-${f.k}">${f.cap?"cap":"goal"}</label><input type="number" min="0" step="${f.step||1}" id="g-${v.id}-${f.k}" data-goal="${f.goal}" value="${T[f.goal]}"></span>` : "";
+    const progress = f.goal && val!=="" ? (f.cap ? (val<=T[f.goal]?100:Math.round(T[f.goal]/val*100)) : Math.round(clamp1(val/T[f.goal])*100)) : 0;
+    return `<div class="field"><label for="${id}">${f.label}</label><div class="ctl"><input type="number" inputmode="decimal" min="0" ${f.max?`max="${f.max}"`:""} step="${f.step||(f.unit==="h"?0.5:1)}" id="${id}" data-v="${v.id}" data-k="${f.k}" value="${val}" placeholder="0">${goal}</div>${f.goal?`<div class="prog"><i id="p-${v.id}-${f.k}" style="width:${progress}%"></i></div>`:""}</div>`;
+  }).join("");
+  const s = valueScore(v.id, w, T);
+  return `<div class="tracker">
+    <div class="weeknav"><button type="button" data-week="-1" aria-label="Previous week">←</button><b class="num" style="font-size:13px">Week of ${weekLabel(curWeek)}</b><button type="button" data-week="1" aria-label="Next week">→</button>${curWeek!==weekKey(new Date())?`<button type="button" data-week="0">This week</button>`:""}</div>
+    <div class="fields">${rows}</div>
+    <div class="vscore"><span>On-track this week</span><span class="num" id="vs-${v.id}">${s==null?"–":s+"%"}</span></div>
+  </div>`;
+}
+
+function viewValue(v){
+  const ev = v.evidence ? `<p class="note">${v.evidence.text} <a href="${v.evidence.url}" target="_blank" rel="noopener">${v.evidence.label}</a>${v.evidence.url2?` · <a href="${v.evidence.url2}" target="_blank" rel="noopener">${v.evidence.label2}</a>`:""}</p>` : "";
+  return `<div class="stack" style="--vc:${COLOR(v.id)}">
+    <section class="card">
+      <div class="vhead">
+        <div>
+          <div class="rank">${v.foundation?"Foundation · not in my top five":`Value #${v.rank} · ${v.pts} priority points`}</div>
+          <h2>${v.name}</h2>
+          <div class="muted">${v.sub}</div>
+        </div>
+        <span class="pill ${v.alert.lvl}" style="margin-top:6px">${v.alert.lvl==="bad"?"Misaligned":v.alert.lvl==="warn"?"Watch":"Aligned"}</span>
+      </div>
+      <blockquote>${v.quote}</blockquote>
+      <div style="margin-top:20px">${lifeBars(v,true)}</div>
+      <p style="margin-top:12px;font-size:14.5px"><b>The gap:</b> ${v.alert.text}</p>
+    </section>
+
+    <div class="grid2">
+      <section class="card">
+        <div class="layerlabel"><span class="n">LAYER 1</span><h3>Values: why it matters</h3></div>
+        <ul class="items">${v.why.map(x=>`<li><span>${x}</span></li>`).join("")}</ul>
+      </section>
+      <section class="card">
+        <div class="layerlabel"><span class="n">LAYER 2</span><h3>Resources & capabilities</h3></div>
+        <ul class="items">${v.resources.map(r=>`<li><span>${r.t}</span>${rarityChip(r.r)}</li>`).join("")}</ul>
+        <p class="note">Rarity uses the VRIO idea from class: a resource only builds advantage if few people have it and it's hard to copy.</p>
+      </section>
+      <section class="card">
+        <div class="layerlabel"><span class="n">LAYER 3</span><h3>Organization</h3></div>
+        <div class="nownext"><span class="k">Now</span><span>${v.orgNow}</span><span class="k">Next</span><ul>${v.orgNext.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        ${ev}
+      </section>
+      <section class="card">
+        <div class="layerlabel"><span class="n">LAYER 4</span><h3>Activities</h3></div>
+        <p style="font-size:14.5px;margin-bottom:12px">${v.activities}</p>
+        ${trackerHTML(v)}
+      </section>
+    </div>
+
+    <section class="card">
+      <div class="layerlabel"><span class="n">PART 2</span><h3>Next version</h3></div>
+      <ul class="items">${v.next.map(x=>`<li><span>${x}</span></li>`).join("")}</ul>
+    </section>
+  </div>`;
+}
+
+function viewRoadmap(){
+  return `<div class="stack">
+    <section class="card">
+      <div class="eyebrow">Part 2 · Strategic goal</div>
+      <p class="thesis" style="margin-top:8px">Become an attorney who helps govern how AI changes the world, while rebuilding my week so Love, Faith, and Health get time that matches how much they matter.</p>
+    </section>
+    <section class="card">
+      <div class="section-head"><h2>Checkpoints</h2></div>
+      <ul class="timeline">
+        <li><span class="when">Now</span><div class="what"><b>Finish strong.</b> Graduate from BYU (December 2026 or April 2027, still deciding), finish law school applications, start logging weeks here.</div></li>
+        <li><span class="when">6 months</span><div class="what"><b>About to start law school.</b> Weekly date night and a workout schedule already running before 1L starts.</div></li>
+        <li><span class="when">1 year</span><div class="what"><b>In law school.</b> Looking for a summer internship in technology or AI law.</div></li>
+        <li><span class="when">3 years</span><div class="what"><b>Graduated and hired.</b> A role chosen partly for the freedom it leaves me.</div></li>
+        <li><span class="when">5 years</span><div class="what"><b>Building the family.</b> A really good job, saving for a house, a kid or two.</div></li>
+        <li><span class="when">10 years</span><div class="what"><b>Living the base of the pyramid.</b> Multiple kids, a house, a steady job, and free time spent with family and on side quests.</div></li>
+      </ul>
+    </section>
+    <div class="three">
+      <section class="card"><h3>Build</h3><ul><li>Reading and writing</li><li>Public speaking</li><li>People skills and communication</li><li>A weekly planning habit</li></ul></section>
+      <section class="card"><h3>Acquire</h3><ul><li>A law degree</li><li>A 1L summer internship</li><li>Savings toward a house</li></ul></section>
+      <section class="card"><h3>Cut</h3><ul><li>Phone time used as a distraction</li><li>Choosing what feels good now over what makes me happy long term</li></ul></section>
+    </div>
+    <section class="card">
+      <div class="section-head"><h2>Risks</h2></div>
+      <ul class="alerts">
+        <li><span class="pill bad">High</span><div><b>Burnout.</b> My week is already overbooked, and law is known for long hours. Response: treat Health as the foundation, protect sleep, and hold a weekly review.</div></li>
+        <li><span class="pill warn">Medium</span><div><b>Freedom gets squeezed.</b> Response: weigh flexibility when choosing between AI policy, in-house, and firm roles.</div></li>
+        <li><span class="pill warn">Medium</span><div><b>Law school doesn't go as planned.</b> Response: I still need to decide on a backup path.</div></li>
+      </ul>
+    </section>
+  </div>`;
+}
+
+function viewReflection(){
+  return `<div class="stack">
+    <section class="card prose">
+      <h2>What I learned building this</h2>
+      <ul>
+        <li>My time is set by deadlines, not values. Growth gets 70 hours a week because it has due dates. Love, Faith, and Health don't, so they get whatever is left.</li>
+        <li>I can't fully separate Growth from Love. Most of those 70 hours are how I plan to provide for my family. The real question is whether the investment is crowding out the thing it's supposed to protect.</li>
+        <li>My points and my ranking disagree about Faith. I listed it fourth but gave it 30 points. I think faith is the foundation and love is how it shows up, and my calendar doesn't reflect either.</li>
+        <li>Health was hiding in plain sight. It wasn't in my top five, but it was my answer to "biggest tension" and "where my calendar contradicts my values." My points added to 90, and health is the missing 10.</li>
+        <li>Freedom is my one aligned value, which makes it the one most at risk from the career I'm choosing.</li>
+        <li>My most valuable resource might be my reputation for reliability, and my biggest threat to it is procrastination.</li>
+      </ul>
+    </section>
+    <div class="grid2">
+      <section class="card prose">
+        <h3>How it connects to class</h3>
+        <ul>
+          <li><b>Company Pyramid.</b> Built on the four layers from Internal Analysis: values and priorities, resources and capabilities, organization, and activities.</li>
+          <li><b>Strategic fit.</b> Like Alicia in "Full Plate," my values say one thing and my activities say another. Every gap on the Misalignments list is a place the layers pull in different directions.</li>
+          <li><b>VRIO.</b> Each resource is tagged by rarity. My rarest combination is information systems plus law plus experience inside an AI company.</li>
+          <li><b>How Will You Measure Your Life?</b> Christensen's point that strategy shows up in where you actually spend time and energy, not in what you intend. The calendar chart is that idea applied to me.</li>
+        </ul>
+      </section>
+      <section class="card prose">
+        <h3>How I built it</h3>
+        <ul>
+          <li>Answered about 40 reflection questions on values, resources, capabilities, activities, and the future.</li>
+          <li>Audited a real week of hours and compared it to a 100-point split of what matters.</li>
+          <li>Checked my gaps against outside benchmarks (exercise guidelines, couple-time research, lawyer workload data).</li>
+          <li>Designed the dashboard so the Organization layer becomes a weekly habit instead of a one-time assignment.</li>
+        </ul>
+      </section>
+    </div>
+    <section class="card prose sources">
+      <h3>Sources</h3>
+      <ul>
+        <li><a href="https://www.cdc.gov/physicalactivity/basics/adults/" target="_blank" rel="noopener">CDC, Adult Activity: An Overview</a></li>
+        <li><a href="https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/" target="_blank" rel="noopener">ABA, Survey of Lawyer Well-Being 2025-2026</a></li>
+        <li><a href="https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar" target="_blank" rel="noopener">Bloomberg Law, Attorney Workload and Hours Survey coverage</a></li>
+        <li><a href="https://www.legal.io/articles/5685631/Lawyers-Are-Working-More-Billing-Less-and-Many-Want-Out" target="_blank" rel="noopener">Legal.io, summary of Bloomberg Law's 2024 survey</a></li>
+        <li><a href="https://mrecenter.org/date-nights-matter/" target="_blank" rel="noopener">Summary of The Date Night Opportunity, National Marriage Project</a></li>
+      </ul>
+    </section>
+    <section class="card prose">
+      <h3>AI use disclosure</h3>
+      <p class="muted">I used Claude (Anthropic) as a support tool to generate reflection questions, organize my answers into the pyramid, find outside benchmarks, and build this dashboard. The values, experiences, numbers, and decisions are my own.</p>
+    </section>
+  </div>`;
+}
+
+/* ---------------- ROUTING & EVENTS ---------------- */
+const VALID = TABS.filter(t=>!t.sep).map(t=>t.id);
+function currentRoute(){ const h=location.hash.replace("#",""); return VALID.includes(h)?h:"overview"; }
+function render(){
+  const r = currentRoute();
+  renderTabs(r);
+  const v = VALUES.find(x=>x.id===r);
+  document.getElementById("view").innerHTML = r==="overview"?viewOverview(): r==="roadmap"?viewRoadmap(): r==="reflection"?viewReflection(): viewValue(v);
+  const tb=document.getElementById("tab-"+r); if(tb && tb.scrollIntoView) tb.scrollIntoView({block:"nearest",inline:"nearest"});
+}
+function refreshLive(){
+  const r=currentRoute();
+  const a=document.activeElement;
+  if(a && a.tagName==="INPUT") return; // don't disturb typing
+  if(r==="overview" || VALUES.some(v=>v.id===r)){ const y=window.scrollY; render(); window.scrollTo(0,y); }
+}
+function go(id){ if(location.hash.replace("#","")===id){ render(); } else { location.hash=id; } window.scrollTo({top:0}); }
+
+document.addEventListener("click", e=>{
+  const g=e.target.closest("[data-go]"); if(g){ go(g.dataset.go); return; }
+  const L=e.target.closest("[data-layer]"); if(L){ selLayer=L.dataset.layer; const p=document.querySelector(".pyr svg"); if(p) p.outerHTML=pyramidSVG(selLayer); document.getElementById("layerpanel").innerHTML=layerPanel(selLayer); return; }
+  const wk=e.target.closest("[data-week]"); if(wk){ const n=+wk.dataset.week; curWeek = n===0?weekKey(new Date()):shiftWeek(curWeek,n); const y=window.scrollY; render(); window.scrollTo(0,y); return; }
+});
+document.addEventListener("keydown", e=>{
+  const L=e.target.closest && e.target.closest("[data-layer]");
+  if(L && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); selLayer=L.dataset.layer; const p=document.querySelector(".pyr svg"); if(p) p.outerHTML=pyramidSVG(selLayer); document.getElementById("layerpanel").innerHTML=layerPanel(selLayer); const n=document.querySelector(`[data-layer="${selLayer}"]`); if(n) n.focus(); }
+});
+function onField(e){
+  const el=e.target;
+  if(el.dataset.goal){ const n=parseFloat(el.value); if(!isNaN(n)&&n>0){ store.targets[el.dataset.goal]=n; scheduleSave(); updateScores(); } return; }
+  if(!el.dataset.v) return;
+  const vid=el.dataset.v, k=el.dataset.k;
+  store.weeks[curWeek] = store.weeks[curWeek]||{};
+  store.weeks[curWeek][vid] = store.weeks[curWeek][vid]||{};
+  if(el.type==="checkbox") store.weeks[curWeek][vid][k]=el.checked;
+  else { const n=parseFloat(el.value); if(el.value===""||isNaN(n)) delete store.weeks[curWeek][vid][k]; else store.weeks[curWeek][vid][k]=Math.max(0,n); }
+  scheduleSave(); updateScores();
+}
+function updateScores(){
+  VALUES.forEach(v=>{
+    const out=document.getElementById("vs-"+v.id); if(!out) return;
+    const w=(store.weeks[curWeek]||{})[v.id]||{}; const s=valueScore(v.id,w,store.targets);
+    out.textContent = s==null?"–":s+"%";
+    FIELDS[v.id].forEach(f=>{ if(!f.goal) return; const bar=document.getElementById(`p-${v.id}-${f.k}`); if(!bar) return; const val=w[f.k]; const T=store.targets[f.goal];
+      bar.style.width = (val==null?0:(f.cap?(val<=T?100:Math.round(T/val*100)):Math.round(clamp1(val/T)*100)))+"%"; });
+  });
+}
+document.addEventListener("input", onField);
+document.addEventListener("change", e=>{ if(e.target.type==="checkbox") onField(e); });
+window.addEventListener("hashchange", render);
+
+render();
+initStore();
+</script>
+
+</body>
+</html>
