@@ -297,21 +297,30 @@ const VALUES = [
   layer:{res:"IS + law + AI industry (very rare combo)", org:"Heavy investment; needs time blocking"}
  },
  {id:"faith", name:"Faith", sub:"Spiritual life", rank:4, pts:20,
-  quote:"You have no clue what's going to happen next in life. Relying on your faith is very important to being happy and successful.",
-  why:["Faith is what completes us as humans, and at the end of the day it's what makes us happy.","It helps with the many things in life that can't be explained.","It drives a good amount of my priorities."],
+  quote:"There are many unknowns in life. Relying on faith is one of the most important ways to stay happy and find success.",
+  why:["Faith is what completes us as humans. While we're here on Earth we'll never have all the answers, but with faith we can keep moving forward.",
+   "Faith helps with the things in life we can't explain, and it helps us push forward and hope for better things.",
+   "Faith gives us a purpose for being here on Earth through Jesus Christ. Faith in Him helps us become better and, one day, become like Him."],
   resources:[
-   {t:"Two-year mission in Milan, Italy: it taught me I can do hard things and actually enjoy them", r:"Rare"},
-   {t:"A costly choice made on purpose: I worried the mission would slow my progress and chose to serve anyway", r:"Rare"},
-   {t:"A church community and shared beliefs at home", r:"Common"}],
-  orgNow:"Sunday church, plus spiritual thoughts when they fit into the day.",
-  orgNext:["A daily anchor: personal study at the same time every day","Track days practiced, not just hours, since faith shows up in consistency"],
-  activities:x=>`About ${fmt(x.H.faith)} hours this week: ${fmt(x.n("church"))} at church and ${fmt(x.n("spiritual"))} of spiritual study and thoughts.`,
+   {t:"A two-year mission in Milan, Italy, teaching people the gospel and helping them see how it could help with the trials they were going through", r:"Rare"},
+   {t:"The mission also built my own faith: trusting I'd make it through two years and learn and grow along the way", r:"Rare"},
+   {t:"Weekly church and the sacrament, where I renew the covenants I've made with God", r:"Common"},
+   {t:"Daily prayer and scripture study", r:"Common"},
+   {t:"A church calling as a Primary teacher", r:"Common"},
+   {t:"Weekly BYU devotionals that help me grow spiritually", r:"Common"}],
+  orgNow:"I go to church on Sundays and say my daily prayers, but my scripture study has been dwindling.",
+  orgNext:["A daily anchor: 30 minutes to an hour set aside every day for scripture study, and tracking it so I stay consistent","A journal to write down my thoughts and share what I'm learning","About 30 minutes every week set aside to serve someone"],
+  activities:x=>`About ${fmt(x.H.faith)} hours this week on faith:`,
+  activityList:x=>[`${fmt(x.n("church"))} hours at church, including teaching Primary`,`${fmt(x.n("spiritual"))} hours of spiritual study and thoughts`,`Daily prayers`],
   alert:x=> x.lvl.faith==="good" ? `Faith gets about ${x.pct.faith}% of my time, close to its ${x.P.faith} points.`
         : x.d.faith<0 ? `Faith has ${x.P.faith} points but gets about ${x.pct.faith}% of my time. I'd love to do more of this.`
         : `Faith gets about ${x.pct.faith}% of my time, more than its ${x.P.faith} points.`,
   evidence:null,
-  next:["Grow from about 7 to 10 hours a week","Personal study most days of the week"],
-  layer:{res:"Mission in Milan: can do hard things", org:"Sunday + when it fits"}
+  next:[
+   {k:"Now", items:["Sunday church, daily prayers, and teaching Primary, with scripture study that has been dwindling"]},
+   {k:"Next few months", items:["30 minutes to an hour of scripture study every day, tracked","A journal for my thoughts and what I'm learning","About 30 minutes a week serving someone","Grow from about 7 to 10 hours a week of faith"]},
+   {k:"Long term", items:["Grow closer to Christ, understand Him better, and strengthen my testimony, especially so I can share it with my future children and the rest of my family"]}],
+  layer:{res:"Mission in Milan, weekly church, Primary calling", org:"Sunday + prayers; study dwindling"}
  }
 ];
 const COLOR = id => `var(--c-${id})`;
@@ -353,7 +362,7 @@ const FIELDS = {
  love:[{k:"wife",cal:1,label:"Hours with my wife",goal:"love"},{k:"date",t:"check",label:"Had a date night this week"}],
  freedom:[{k:"fun",cal:1,label:"Hours of fun or side quests",goal:"freedom"},{k:"exercise",cal:1,label:"Exercise hours",goal:"exHours",step:0.25},{k:"sleep",cal:1,label:"Sleep hours this week",goal:"sleepWeek"},{k:"quest",t:"check",label:"Did something new this week"}],
  growth:[{k:"work",cal:1,label:"Work hours"},{k:"class",cal:1,label:"Class + homework hours"},{k:"law",cal:1,label:"Law school hours"},{k:"_total",t:"total",keys:["work","class","law"],label:"Total growth hours",goal:"growthCap",cap:true}],
- faith:[{k:"church",cal:1,label:"Church hours"},{k:"spiritual",cal:1,label:"Spiritual study hours"},{k:"_total",t:"total",keys:["church","spiritual"],label:"Total faith hours",goal:"faith"},{k:"days",label:"Days with personal study",goal:"faithDays",max:7,step:1}]
+ faith:[{k:"church",cal:1,label:"Church hours"},{k:"spiritual",cal:1,label:"Spiritual study hours"},{k:"_total",t:"total",keys:["church","spiritual"],label:"Total faith hours",goal:"faith"},{k:"days",label:"Days with scripture study",goal:"faithDays",max:7,step:1},{k:"served",t:"check",label:"Served someone this week"}]
 };
 let store = {targets:{...DEFAULT_TARGETS}, weeks:{}};
 let mode = "none", ref = null, dirty = false, saving = Promise.resolve(), saveTimer = null;
