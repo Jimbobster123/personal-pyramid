@@ -216,23 +216,25 @@ const VALUES = [
   next:["5 years: graduated from law school, saving for a house, a kid or two","10 years: multiple kids, a house, a steady job, and free time spent with family"],
   layer:{res:"Marriage built on being heard and compromise", org:"Unprotected; fits around deadlines"}
  },
- {id:"freedom", name:"Freedom", sub:"Adventure and choice", rank:2, pts:10, hours:10,
+ {id:"freedom", name:"Freedom", sub:"Adventure and vitality", rank:2, pts:20, hours:11.5,
   quote:"Everyone should have the chance to learn and figure out what they like and what they want to do.",
-  why:["Freedom is what makes growth possible: when you're free, you're able to learn.","At 40 I still want to be adventuring and enjoying the small things life offers.","I want to live somewhere with always something to do, a big city or California."],
+  why:["Freedom is what makes growth possible: when you're free, you're able to learn.","At 40 I still want to be adventuring and enjoying the small things life offers, and that takes a body that can keep up.","I really do value health. Being healthy is what keeps me free; burnout is the opposite of freedom.","I want to live somewhere with always something to do, a big city or California."],
   resources:[
    {t:"Portable skills that open doors: information systems, legal ops, EMT, Italian", r:"Very rare"},
    {t:"Proven adaptability: thrived in a new country and language on my mission", r:"Rare"},
-   {t:"“Jack of all trades”: willing to try anything, learn it, and add it to my toolkit", r:"Rare"},
+   {t:"\u201cJack of all trades\u201d: willing to try anything, learn it, and add it to my toolkit", r:"Rare"},
+   {t:"EMT training: I understand the body and what happens when health fails", r:"Rare"},
+   {t:"Energized by exercise and activity when I actually do it; sleep holding steady at 7 to 8 hours", r:"Common"},
    {t:"Decision maker who does his best work independently", r:"Common"}],
-  orgNow:"I save weekends for something fun when I can.",
-  orgNext:["Keep one weekend block every week for a side quest","One real trip each quarter","Choose a legal path that protects flexibility, not just pay"],
-  activities:"About 10 hours a week of fun, mostly on weekends.",
-  alert:{lvl:"good", text:"Aligned today: 10 points and about 9% of my waking hours. The risk is the future: law is known for long hours."},
-  evidence:{text:"Attorneys reported averaging 48 hours a week in 2024, and late 2025 averaged 51.7 hours, the highest since early 2021 (Bloomberg Law surveys).", url:"https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar", label:"Bloomberg Law workload survey"},
-  next:["Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
-  layer:{res:"Portable skill set (IS, legal, EMT, Italian)", org:"Weekends, when there's time"}
+  orgNow:"I save weekends for something fun when I can. Exercise happens only if there's time left over, which is rarely.",
+  orgNext:["Keep one weekend block every week for a side quest","Schedule workouts like meetings: three runs and two strength sessions","Protect sleep before adding new commitments","Choose a legal path that protects flexibility, not just pay"],
+  activities:"About 10 hours a week of fun, mostly on weekends, and 1 to 2 hours of running or gym.",
+  alert:{lvl:"warn", text:"Half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, below the CDC minimum. Together that's about 10% of my waking hours for a value worth 20 points, and law's long hours put both halves at risk."},
+  evidence:{text:"The CDC recommends 150 minutes of moderate activity or 75 minutes of vigorous activity a week, plus 2 days of strength training. Attorneys averaged 48 hours of work a week in 2024 and 51.7 in late 2025 (Bloomberg Law), and the 2025-2026 ABA well-being study tied longer hours to higher risk of burnout, anxiety, and depression.", links:[{url:"https://www.cdc.gov/physicalactivity/basics/adults/", label:"CDC guidelines"},{url:"https://news.bgov.com/business-and-practice/associates-feel-market-swings-as-partners-paydays-soar", label:"Bloomberg Law survey"},{url:"https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/", label:"ABA study"}]},
+  next:["Hit 150 minutes of exercise and 2 strength days every week","Train for my first marathon in early 2027","Pick a legal role (AI policy, in-house, or a firm) partly by how much freedom it leaves","Live somewhere with always something to do: a big city or California"],
+  layer:{res:"Portable skill set, EMT training", org:"Weekends; exercise only if time is left"}
  },
- {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:10, hours:70,
+ {id:"growth", name:"Growth", sub:"Learning and becoming", rank:3, pts:20, hours:70,
   quote:"When you're able to learn, you're able to become better, to become something new. It gives you purpose to keep moving forward.",
   why:["Staying stagnant is one of the things that frustrates me most.","I've always wanted to move toward my goals fast: I took an EMT class at 17 so I wouldn't stand still.","I want to be an attorney who helps regulate and govern how AI changes the world."],
   resources:[
@@ -245,12 +247,12 @@ const VALUES = [
   orgNow:"I go to work, and everything after that is hitting deadlines. The week runs on due dates, not a plan.",
   orgNext:["A 20-minute Sunday planning session to set the week before deadlines set it for me","Time-block work, class, and applications in one calendar","Practice the skills I named as gaps: reading, writing, public speaking, communication"],
   activities:"About 70 hours a week: 30 at work, 20 on class and homework, 20 on law school applications.",
-  alert:{lvl:"bad", text:"Growth has 10 points but takes about 61% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car."},
+  alert:{lvl:"bad", text:"Growth has 20 points but takes about 61% of my waking hours. Most of those hours are really investments in Love and Freedom, so the question is whether the engine is eating the car."},
   evidence:null,
   next:["6 months: about to start law school","1 year: in law school, looking for a summer internship","3 years: graduated with a job, focused on technology and AI law"],
   layer:{res:"IS + law + AI industry (very rare combo)", org:"Deadline-driven"}
  },
- {id:"faith", name:"Faith", sub:"Spiritual life", rank:4, pts:30, hours:7,
+ {id:"faith", name:"Faith", sub:"Spiritual life", rank:4, pts:20, hours:7,
   quote:"You have no clue what's going to happen next in life. Relying on your faith is very important to being happy and successful.",
   why:["Faith is what completes us as humans, and at the end of the day it's what makes us happy.","It helps with the many things in life that can't be explained.","It drives a good amount of my priorities."],
   resources:[
@@ -260,7 +262,7 @@ const VALUES = [
   orgNow:"Sunday church, plus spiritual thoughts when they fit into the day.",
   orgNext:["A daily anchor: personal study at the same time every day","Track days practiced, not just hours, since faith shows up in consistency"],
   activities:"About 7 hours a week: 2 at church and around 5 of spiritual thoughts and study. It should be more.",
-  alert:{lvl:"bad", text:"Faith is tied for my most important value (30 points) but gets about 6% of my waking hours. I ranked it #4 in my list but #1 in my points, which tells me I haven't fully decided where it sits."},
+  alert:{lvl:"bad", text:"Faith has 20 priority points but gets about 6% of my waking hours. I said it myself: it should be more."},
   evidence:null,
   next:["Grow from about 7 to 10 hours a week","Personal study most days of the week"],
   layer:{res:"Mission in Milan: can do hard things", org:"Sunday + when it fits"}
@@ -279,21 +281,6 @@ const VALUES = [
   evidence:null,
   next:["Become a stronger communicator and public speaker, which is how a lawyer's character shows up to others"],
   layer:{res:"Reputation for reliability", org:"Instinct, no review"}
- },
- {id:"health", name:"Health", sub:"The foundation", rank:null, pts:0, hours:1.5, foundation:true,
-  quote:"I really do value health. I'd love to exercise more, but I get so bogged down by the things I'm doing for a better future that it's hard to go.",
-  why:["Health didn't make my top five, but it came up twice as my biggest tension.","My points only add up to 90. Health is the missing 10.","It isn't a sixth value. It's the ground the other five stand on: burnout is my biggest named risk."],
-  resources:[
-   {t:"EMT training: I understand the body and what happens when health fails", r:"Rare"},
-   {t:"I'm energized by exercise and activity when I actually do it", r:"Common"},
-   {t:"Sleep is holding steady at 7 to 8 hours a night", r:"Common"}],
-  orgNow:"Exercise happens if there's time left over, which is rarely.",
-  orgNext:["Schedule workouts like meetings: three runs and two strength sessions","Protect sleep before adding new commitments"],
-  activities:"About 1 to 2 hours of running or gym a week.",
-  alert:{lvl:"bad", text:"Important to me, missing from my points, and getting about 1% of my waking hours."},
-  evidence:{text:"The CDC recommends 150 minutes of moderate activity or 75 minutes of vigorous activity a week, plus 2 days of strength training. The 2025-2026 ABA lawyer well-being study found longer hours were tied to higher risk of burnout, anxiety, and depression.", url:"https://www.cdc.gov/physicalactivity/basics/adults/", label:"CDC adult activity guidelines", url2:"https://www.americanbar.org/groups/lawyer_assistance/research/lawyer-well-being/", label2:"ABA lawyer well-being study"},
-  next:["Give health its 10 points","Hit 150 minutes and 2 strength days every week","Train for my first marathon in early 2027"],
-  layer:{res:"EMT training, steady sleep", org:"Leftover time"}
  }
 ];
 const COLOR = id => `var(--c-${id})`;
@@ -308,7 +295,7 @@ const WEEK = [ // reported hours, week of Nov 3
  {k:"Commute", h:10, c:"color-mix(in srgb, var(--muted) 45%, var(--surface))"},
  {k:"Spiritual", h:5, c:"var(--c-faith)"},
  {k:"Church", h:2, c:"color-mix(in srgb, var(--c-faith) 60%, var(--surface))"},
- {k:"Exercise", h:1.5, c:"var(--c-health)"}
+ {k:"Exercise", h:1.5, c:"color-mix(in srgb, var(--c-freedom) 50%, var(--surface))"}
 ];
 const WEEK_TOTAL = WEEK.reduce((a,b)=>a+b.h,0); // 171
 
@@ -335,11 +322,10 @@ const BASE_SCORE = alignment(BASE_H, BASE_P);
 const DEFAULT_TARGETS = {love:25, freedom:10, growthCap:65, growthReps:2, faith:10, faithDays:6, charPct:90, healthMin:150, healthStr:2, sleep:7.5};
 const FIELDS = {
  love:[{k:"hours",label:"Quality hours with my wife",t:"num",goal:"love",unit:"h"},{k:"date",label:"Had a date night this week",t:"check"}],
- freedom:[{k:"hours",label:"Hours of fun or side quests",t:"num",goal:"freedom",unit:"h"},{k:"quest",label:"Did something new this week",t:"check"}],
+ freedom:[{k:"hours",label:"Hours of fun or side quests",t:"num",goal:"freedom",unit:"h"},{k:"quest",label:"Did something new this week",t:"check"},{k:"min",label:"Exercise minutes",t:"num",goal:"healthMin",unit:"m"},{k:"str",label:"Strength days",t:"num",goal:"healthStr",unit:"d",max:7},{k:"sleep",label:"Average sleep per night",t:"num",goal:"sleep",unit:"h",step:0.5}],
  growth:[{k:"hours",label:"Work + class + law school hours",t:"num",goal:"growthCap",unit:"h",cap:true},{k:"reps",label:"Writing or speaking practice sessions",t:"num",goal:"growthReps",unit:"x"}],
  faith:[{k:"hours",label:"Church + study hours",t:"num",goal:"faith",unit:"h"},{k:"days",label:"Days with personal study",t:"num",goal:"faithDays",unit:"d",max:7}],
- character:[{k:"made",label:"Commitments I made",t:"num",unit:""},{k:"kept",label:"Commitments I kept",t:"num",unit:""},{k:"putoff",label:"Tasks I put off past the plan",t:"num",unit:""}],
- health:[{k:"min",label:"Exercise minutes",t:"num",goal:"healthMin",unit:"m"},{k:"str",label:"Strength days",t:"num",goal:"healthStr",unit:"d",max:7},{k:"sleep",label:"Average sleep per night",t:"num",goal:"sleep",unit:"h",step:0.5}]
+ character:[{k:"made",label:"Commitments I made",t:"num",unit:""},{k:"kept",label:"Commitments I kept",t:"num",unit:""},{k:"putoff",label:"Tasks I put off past the plan",t:"num",unit:""}]
 };
 let store = {targets:{...DEFAULT_TARGETS}, weeks:{}};
 let mode = "none", ref = null, dirty = false, saving = Promise.resolve(), saveTimer = null;
@@ -356,11 +342,10 @@ function valueScore(id, w, T){
   const has = k => w[k]!==undefined && w[k]!=="" && w[k]!==null;
   const parts = [];
   if(id==="love"){ if(has("hours")) parts.push(clamp1(w.hours/T.love)); if(has("date")) parts.push(w.date?1:0); }
-  if(id==="freedom"){ if(has("hours")) parts.push(clamp1(w.hours/T.freedom)); if(has("quest")) parts.push(w.quest?1:0); }
+  if(id==="freedom"){ if(has("hours")) parts.push(clamp1(w.hours/T.freedom)); if(has("quest")) parts.push(w.quest?1:0); if(has("min")) parts.push(clamp1(w.min/T.healthMin)); if(has("str")) parts.push(clamp1(w.str/T.healthStr)); if(has("sleep")) parts.push(clamp1(w.sleep/T.sleep)); }
   if(id==="growth"){ if(has("hours")) parts.push(w.hours<=T.growthCap?1:clamp1(T.growthCap/w.hours)); if(has("reps")) parts.push(clamp1(w.reps/T.growthReps)); }
   if(id==="faith"){ if(has("hours")) parts.push(clamp1(w.hours/T.faith)); if(has("days")) parts.push(clamp1(w.days/T.faithDays)); }
   if(id==="character"){ if(has("made")&&w.made>0&&has("kept")) parts.push(clamp1((w.kept/w.made*100)/T.charPct)); }
-  if(id==="health"){ if(has("min")) parts.push(clamp1(w.min/T.healthMin)); if(has("str")) parts.push(clamp1(w.str/T.healthStr)); if(has("sleep")) parts.push(clamp1(w.sleep/T.sleep)); }
   return parts.length ? Math.round(parts.reduce((a,b)=>a+b,0)/parts.length*100) : null;
 }
 function weekScore(k){
@@ -371,7 +356,7 @@ function weekScore(k){
 function weekAlignment(k){
   const w = store.weeks[k]; if(!w) return null;
   const H={},P={}; let any=false;
-  VALUES.filter(v=>v.hours!=null).forEach(v=>{ const h=w[v.id]?.[v.id==="health"?"min":"hours"]; if(h!=null && h!==""){ any=true; H[v.id]= v.id==="health"? h/60 : +h; P[v.id]= v.id==="health"?10:v.pts; } });
+  VALUES.filter(v=>v.hours!=null).forEach(v=>{ const x=w[v.id]||{}; let h = (x.hours!=null&&x.hours!=="") ? +x.hours : null; if(v.id==="freedom" && x.min!=null && x.min!==""){ h=(h||0)+x.min/60; } if(h!=null){ any=true; H[v.id]=h; P[v.id]=v.pts; } });
   return any && Object.keys(H).length>=3 ? alignment(H,P) : null;
 }
 
@@ -446,7 +431,7 @@ function renderTabs(active){
 function pyramidSVG(sel){
   const top=12, h=60, gap=3, k=0.6, cx=210;
   const hw = y => (y-top)*k + 6;
-  let out = `<svg viewBox="0 0 420 300" role="img" aria-label="Pyramid with four layers: activities at the top, then organization, resources and capabilities, and values at the base, resting on a health foundation">`;
+  let out = `<svg viewBox="0 0 420 268" role="img" aria-label="Pyramid with four layers: activities at the top, then organization, resources and capabilities, and values at the base">`;
   const shades=[70,52,36,22];
   LAYERS.forEach((L,i)=>{
     const y1 = top + i*(h+gap), y2 = y1+h;
@@ -459,17 +444,11 @@ function pyramidSVG(sel){
     const fs = i===0 ? 11.5 : 13.5;
     out += `<g class="layer" tabindex="0" role="button" aria-pressed="${sel===L.id}" data-layer="${L.id}"><path d="${d}" style="fill:${fill}"></path><text x="${cx}" y="${(y1+y2)/2+ (i===0?14:5)}" text-anchor="middle" font-size="${fs}" style="fill:${tc}">${lab}</text></g>`;
   });
-  const yb = top + 4*(h+gap) + 4;
-  out += `<g class="layer" tabindex="0" role="button" aria-pressed="${sel==="health"}" data-layer="health"><rect x="20" y="${yb}" width="380" height="24" rx="4" style="fill:color-mix(in srgb, var(--c-health) ${sel==="health"?60:22}%, var(--surface))"></rect><text x="${cx}" y="${yb+16}" text-anchor="middle" font-size="12" style="fill:var(--ink)">Foundation: Health</text></g>`;
   return out + `</svg>`;
 }
 function layerPanel(sel){
-  if(sel==="health"){
-    const v=VALUES.find(x=>x.id==="health");
-    return `<div class="eyebrow">Foundation</div><h3 style="margin-top:4px">Health holds up every layer</h3><p class="muted" style="margin-top:6px;font-size:14px">${v.why[2]}</p>`;
-  }
   const L = LAYERS.find(l=>l.id===sel);
-  const rows = VALUES.filter(v=>!v.foundation).map(v=>{
+  const rows = VALUES.map(v=>{
     let txt="";
     if(sel==="values") txt = `#${v.rank} · ${v.pts} points · ${v.sub}`;
     if(sel==="resources") txt = v.layer.res;
@@ -507,7 +486,7 @@ function viewOverview(){
           <div class="eyebrow">Alignment score · baseline</div>
           <div class="score" style="margin-top:8px"><span class="big">${BASE_SCORE}</span><span class="muted">/ 100</span></div>
           <div class="meter"><i style="width:${BASE_SCORE}%"></i></div>
-          <p style="font-size:14px">How closely my hours match my priority points. 100 would mean every value gets time in the same proportion I say it matters. Right now about half my time is out of place.</p>
+          <p style="font-size:14px">How closely my hours match my priority points. 100 would mean every value gets time in the same proportion I say it matters. Right now about ${100-BASE_SCORE}% of my time is in the wrong place.</p>
           <p class="note">Method: compare each value's share of priority points with its share of my value-related hours, add up the differences, and subtract half of that total from 100.</p>
         </section>
         <section class="card">
@@ -532,7 +511,7 @@ function viewOverview(){
       <section class="card">
         <div class="section-head"><h2>Lifelines</h2><span class="muted" style="font-size:13px">Priority vs. time</span></div>
         ${VALUES.map(v=>`<div class="life"><button class="name" data-go="${v.id}"><span class="dot" style="background:${COLOR(v.id)}"></span>${v.name}</button>${lifeBars(v,false)}</div>`).join("")}
-        <p class="note">Priority = my 100-point split (family 30, faith 30, adventure 10, growth 10, character 10). Time = share of my ${Math.round(WAKING)} waking hours. The points only add to 90; health is the missing 10.</p>
+        <p class="note">Priority = my 100-point split (love 30, freedom 20, growth 20, faith 20, character 10). Time = share of my ${Math.round(WAKING)} waking hours. Freedom includes health.</p>
       </section>
       <section class="card">
         <div class="section-head"><h2>Misalignments</h2><span class="muted" style="font-size:13px">Where the layers pull apart</span></div>
@@ -568,7 +547,8 @@ function trackerHTML(v){
 }
 
 function viewValue(v){
-  const ev = v.evidence ? `<p class="note">${v.evidence.text} <a href="${v.evidence.url}" target="_blank" rel="noopener">${v.evidence.label}</a>${v.evidence.url2?` · <a href="${v.evidence.url2}" target="_blank" rel="noopener">${v.evidence.label2}</a>`:""}</p>` : "";
+  const evLinks = v.evidence ? (v.evidence.links || [{url:v.evidence.url, label:v.evidence.label}]) : [];
+  const ev = v.evidence ? `<p class="note">${v.evidence.text} ${evLinks.map(l=>`<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join(" · ")}</p>` : "";
   return `<div class="stack" style="--vc:${COLOR(v.id)}">
     <section class="card">
       <div class="vhead">
@@ -617,7 +597,7 @@ function viewRoadmap(){
   return `<div class="stack">
     <section class="card">
       <div class="eyebrow">Part 2 · Strategic goal</div>
-      <p class="thesis" style="margin-top:8px">Become an attorney who helps govern how AI changes the world, while rebuilding my week so Love, Faith, and Health get time that matches how much they matter.</p>
+      <p class="thesis" style="margin-top:8px">Become an attorney who helps govern how AI changes the world, while rebuilding my week so Love, Faith, and my health get time that matches how much they matter.</p>
     </section>
     <section class="card">
       <div class="section-head"><h2>Checkpoints</h2></div>
@@ -638,7 +618,7 @@ function viewRoadmap(){
     <section class="card">
       <div class="section-head"><h2>Risks</h2></div>
       <ul class="alerts">
-        <li><span class="pill bad">High</span><div><b>Burnout.</b> My week is already overbooked, and law is known for long hours. Response: treat Health as the foundation, protect sleep, and hold a weekly review.</div></li>
+        <li><span class="pill bad">High</span><div><b>Burnout.</b> My week is already overbooked, and law is known for long hours. Response: build health into Freedom, protect sleep, schedule workouts, and hold a weekly review.</div></li>
         <li><span class="pill warn">Medium</span><div><b>Freedom gets squeezed.</b> Response: weigh flexibility when choosing between AI policy, in-house, and firm roles.</div></li>
         <li><span class="pill warn">Medium</span><div><b>Law school doesn't go as planned.</b> Response: I still need to decide on a backup path.</div></li>
       </ul>
@@ -653,9 +633,9 @@ function viewReflection(){
       <ul>
         <li>My time is set by deadlines, not values. Growth gets 70 hours a week because it has due dates. Love, Faith, and Health don't, so they get whatever is left.</li>
         <li>I can't fully separate Growth from Love. Most of those 70 hours are how I plan to provide for my family. The real question is whether the investment is crowding out the thing it's supposed to protect.</li>
-        <li>My points and my ranking disagree about Faith. I listed it fourth but gave it 30 points. I think faith is the foundation and love is how it shows up, and my calendar doesn't reflect either.</li>
-        <li>Health was hiding in plain sight. It wasn't in my top five, but it was my answer to "biggest tension" and "where my calendar contradicts my values." My points added to 90, and health is the missing 10.</li>
-        <li>Freedom is my one aligned value, which makes it the one most at risk from the career I'm choosing.</li>
+        <li>I changed my priorities after seeing my real week. My first split was love 30, faith 30, freedom 10, growth 10, character 10. It only added to 90, and it didn't match my own ranking, since I listed faith fourth but gave it 30 points. My final split is love 30, freedom 20, growth 20, faith 20, character 10, which matches my ranking and is more honest about how much growth matters to me.</li>
+        <li>Health was hiding in plain sight. It wasn't in my top five, but it was my answer to "biggest tension" and "where my calendar contradicts my values." I put it inside Freedom, because being healthy is what keeps me free to adventure, and burnout is the opposite of freedom.</li>
+        <li>Freedom is only half aligned. The fun half gets about 10 hours a week, but the health half gets about 1.5, and the career I'm choosing is known for long hours that threaten both.</li>
         <li>My most valuable resource might be my reputation for reliability, and my biggest threat to it is procrastination.</li>
       </ul>
     </section>
